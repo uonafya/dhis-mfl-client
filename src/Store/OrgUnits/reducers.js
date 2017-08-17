@@ -2,18 +2,33 @@ import * as types from "./actionTypes"
 import Immutable from 'seamless-immutable'
 
 const initialState = Immutable({
+    orgUnitsIsFetched: false,
+    orgUnits: [],
+
     facilitiesIsFetched: false,
-    facilities: undefined
+    facilities: []
 })
 
 export default function facilityReducer(state=initialState, action={}){
     switch (action.type) {
-        case types.FACILITIES_REQUESTED:
+        case types.ORGUNIT_REQUESTED:
             return state
     
-        case types.FACILITIES_RECEIVED:
+        case types.ORGUNIT_RECEIVED:
             return state.merge({
-                facilities: action.facilities,
+                orgUnits: action.orgUnits,
+                orgUnitsIsFetched: true
+            })
+        
+        case types.ADD_ORGUNITS:            
+            return state.merge({
+                orgUnits: [...state.orgUnits, ...action.orgUnits],
+                orgUnitsIsFetched: true
+            })
+        
+        case types.ADD_FACILITIES:
+            return state.merge({
+                facilities: [...state.facilities, ...action.facilities],
                 facilitiesIsFetched: true
             })
         default:
