@@ -18,3 +18,9 @@ export function getFacilities(){
             })
     }
 }
+
+export function mflFacilities(mflCodes){
+    return (dispatch, getState) => {
+
+    }
+}
