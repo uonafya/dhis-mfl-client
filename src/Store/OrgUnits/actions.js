@@ -49,7 +49,7 @@ export function getFacilities(pageNumber = 1) {
             .then(orgUnits => {
                 //check if page end of page                
                 if (orgUnits.pager.page < orgUnits.pager.pageCount) {
-                    dispatch(addOrgUnits(orgUnits.organisationUnits))
+                    dispatch(addFacilities(orgUnits.organisationUnits))
                     return dispatch(getOrgUnits(1, pageNumber + 1))
                 }
                 else {
@@ -68,6 +68,36 @@ export function addFacilities(facilities){
         return dispatch({
             type: types.ADD_FACILITIES,
             facilities
+        })
+    }
+}
+
+export function getCounties(pageNumber = 1) {
+    return function (dispatch, getState) {
+        dispatch({ type: types.COUNTIES_REQUESTED })
+        Dhis2Service.getOrgUnits(1, pageNumber)
+            .then(orgUnits => {
+                //check if page end of page                
+                if (orgUnits.pager.page < orgUnits.pager.pageCount) {
+                    dispatch(addCounties(orgUnits.organisationUnits))
+                    return dispatch(getOrgUnits(1, pageNumber + 1))
+                }
+                else {
+                    return
+                }
+
+            })
+            .catch(error => {
+                throw (error)
+            })
+    }
+}
+
+export function addCounties(counties){
+    return function (dispatch, getState){        
+        return dispatch({
+            type: types.ADD_COUNTIES,
+            counties
         })
     }
 }

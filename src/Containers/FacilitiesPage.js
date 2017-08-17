@@ -7,6 +7,7 @@ import Divider from 'material-ui/Divider'
 import Paper from "material-ui/Paper"
 import Checkbox from 'material-ui/Checkbox';
 import Grid from 'material-ui/Grid';
+import Card from 'material-ui/Card';
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
@@ -16,6 +17,7 @@ import * as orgUnitSelectors from "../Store/OrgUnits/selectors"
 import { orgLevels } from "../Store/OrgUnits/actions"
 
 import OrgUnitItem from "../Components/OrgUnitItem"
+import OrgUnitForm from "../Components/OrgUnitForm"
 
 const styles = theme => ({
     root: {
@@ -26,6 +28,9 @@ const styles = theme => ({
     paper: {
         padding: theme.spacing.unit * 2,
         height: '100%',
+    },
+    control: {
+        padding: theme.spacing.unit * 2
     }
 })
 
@@ -33,17 +38,25 @@ const styles = theme => ({
 class FacilitiesPage extends Component {
 
     componentDidMount() {
-        this.props.orgUnitActions.getOrgUnits(orgLevels.wards)
+        this.props.orgUnitActions.getCounties(orgLevels.counties)
     }
 
     render() {
         const classes = this.props.classes
         return (
             <Grid container spacing={24}>
-                <Grid item xs={12} sm={6}>
-                    <Paper className={classes.paper}>
-                        
-                    </Paper>
+                <Grid item xs={12} sm={4}>
+                    <Card className={classes.control}  >
+                        {
+                            this.props.countiesIsFetched ? (
+                                <OrgUnitForm
+                                    counties={this.props.counties} />
+
+                            ) : (
+                                <h4>Loading</h4>
+                            )
+                        }
+                    </Card>
                     <Paper className={classes.paper}>
                         {
                             this.props.orgUnitsIsFetched ? (
@@ -60,7 +73,7 @@ class FacilitiesPage extends Component {
                         }
                     </Paper>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={8}>
                     <Paper className={classes.paper}>
                         {
                             this.props.facilitiesIsFetched ? (
@@ -89,7 +102,10 @@ FacilitiesPage.propTypes = {
 const mapStateToProps = (state, ownProps) => {
     return {
         orgUnitsIsFetched: orgUnitSelectors.getorgUnitsFetchStatus(state),
-        orgUnits: orgUnitSelectors.getOrgUnits(state)
+        orgUnits: orgUnitSelectors.getOrgUnits(state),
+
+        countiesIsFetched: orgUnitSelectors.getCountyFetchStatus(state),
+        counties: orgUnitSelectors.getCounties(state)
     }
 }
 

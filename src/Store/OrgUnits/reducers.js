@@ -6,7 +6,11 @@ const initialState = Immutable({
     orgUnits: [],
 
     facilitiesIsFetched: false,
-    facilities: []
+    facilities: [],
+
+    countiesIsFetched: false,
+    counties: [],
+
 })
 
 export default function facilityReducer(state=initialState, action={}){
@@ -30,6 +34,15 @@ export default function facilityReducer(state=initialState, action={}){
             return state.merge({
                 facilities: [...state.facilities, ...action.facilities],
                 facilitiesIsFetched: true
+            })
+        
+        case types.COUNTIES_REQUESTED:
+            return state
+        
+        case types.COUNTIES_RECEIVED:
+            return state.merge({
+                counties: [...state.counties, ...action.counties],
+                countiesIsFetched: true
             })
         default:
             return state

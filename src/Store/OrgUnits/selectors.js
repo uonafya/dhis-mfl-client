@@ -13,3 +13,12 @@ export function getFacilityFetchStatus(state){
 export function getFacilities(state){
     return state.facilityReducer.facilities
 }
+
+
+export function getCountyFetchStatus(state){
+    return state.facilityReducer.countiesIsFetched
+}
+
+export function getCounties(state){
+    return state.facilityReducer.counties
+}
