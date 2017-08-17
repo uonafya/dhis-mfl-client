@@ -18,7 +18,7 @@ export default function authenticationReducer(state=initialState, action={}){
 
         case types.MFL_LOGIN_SUCCESS:
             return state.merge({
-                mflApiKey: action.mflApiKey,
+                // mflApiKey: action.mflApiKey,
                 isMflUserAuthenticated: true
             })
 

@@ -1,36 +1,42 @@
 export default class MFLService {
+
     static get host() {
         delete MFLService.host
         return MFLService.host = 'http://api.kmhfltest.health.go.ke'
     }
 
-    static get sessionAuth(){
-        delete MFLService.sessionAuth
-        const parsedCredentials = {
+    static get credentials(){
+        delete MFLService.credentials
+        const credentials = {
             "username": "dennisbanga@gmail.com",
-            "password": "healthit123"
+            "password": "healthit123",
+            "grantType": "password",
+            "clientId": "5O1KlpwBb96ANWe27ZQOpbWSF4DZDm4sOytwdzGv",
+            "clientSecret": "PqV0dHbkjXAtJYhY9UOCgRVi5BzLhiDxGU91kbt5EoayQ5SYOoJBYRYAYlJl2RetUeDMpSvhe9DaQr0HKHan0B9ptVyoLvOqpekiOmEqUJ6HZKuIoma0pvqkkKDU9GPv"
         }
-        return MFLService.sessionAuth = parsedCredentials
+        return MFLService.credentials = credentials
     }
 
-    static getAuthKey(){
-        const url = this.host+"/api/rest-auth/login/"
-        
+    static getAccesToken(){
+        const url = this.host+"/o/token/?"
+                            +"grant_type="+this.credentials.grantType
+                            +"&username="+this.credentials.username
+                            +"&password="+this.credentials.password
+
         const request = {
             method: "POST",
-            headers: {
+            headers: new Headers({
                 "Content-Type": "application/json",
                 "Vary": "Accept",
                 "Accept": "application/json",
-            },
-            body: {
-                body: this.sessionAuth
-            }
+                "Authorization": "Basic "+btoa(this.credentials.clientId+":"+this.credentials.clientSecret)
+            }),
+            json: true
         }
 
         return fetch(url, request)
         .then(response => {
-            console.log(response)
+            console.log("@Get Token - MFL Service ", response)
             if (response.status != 200) {
 
             }
@@ -41,22 +47,27 @@ export default class MFLService {
         })
     }
 
-    static getUserInformation(){
-        const url = this.host+"/api/rest-auth/user/"
+    static refreshToken(){
+        const accesToken = JSON.parse(sessionStorage.getItem("mflAccessToken"))
+        const url = this.host+"/o/token/?"
+                           +"grant_type=refresh_token"
+                           +"&refresh_token="+accesToken.refresh_token
+                           +"&client_id="+this.credentials.clientId
+                           +"&client_secret="+this.credentials.clientSecret
 
         const request = {
-            method: "GET",
-            headers: {
+            method: "POST",
+            headers: new Headers({
                 "Content-Type": "application/json",
                 "Vary": "Accept",
-                "Accept": "application/json",
-                "Access-Control-Allow-Headers": "Content-Type, Vary, Accept"
-            },
+                "Accept": "application/json"
+            }),
+            json: true
         }
 
         return fetch(url, request)
         .then(response => {
-            console.log(response)
+            console.log("@Refresh Token - MFL Service ", response)
             if (response.status != 200) {
 
             }

@@ -20,28 +20,39 @@ export function logIn(credentials) {
 
 export function mflApiAuth(){
     return (dispatch, getState) => {
-        MFLService.getAuthKey()
+        MFLService.getAccesToken()
             .then(response => {
                 dispatch({
                     type: types.LOGIN_SUCCESS,
-                    mflApiKey: response.key
+                    isMflUserAuthenticated: true
                 })
-                console.log(response)
-                
-                MFLService.getUserInformation()
-                .then(response => {
-                    dispatch({
-                        type: types.MFL_USER_INFORMATION_UPDATED,
-                        mflUserInformation: response
-                    })
-                    console.log(response)
-                })
-                .catch(error => { 
-                    throw(error)
-                })
+                sessionStorage.setItem("mflAccessToken", JSON.stringify(response))
             })
             .catch(error => { 
                 throw(error)
             })
+    }
+}
+
+setInterval(() => {
+    MFLService.refreshToken()
+        .then(response => {
+            sessionStorage.setItem("mflAccessToken", JSON.stringify(response))
+        })
+}, 25000)
+
+export function mflUserDetails(){
+    return (dispatch, getState) => {
+        MFLService.getUserInformation()
+        .then(response => {
+            dispatch({
+                type: types.MFL_USER_INFORMATION_UPDATED,
+                mflUserInformation: response
+            })
+            console.log(response)
+        })
+        .catch(error => { 
+            throw(error)
+        })
     }
 }
