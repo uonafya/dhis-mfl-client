@@ -5,19 +5,23 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "win-test": "echo \"Error: no test specified\" & exit 1",
     "start": "npm run build",
+    "win-start": "npm run win-build",
     "build": "webpack -d && cp src/index.html public/index.html && webpack-dev-server --content-base src/  --inline --hot --history-api-fallback",
-    "build:prod": "webpack -p && cp src/index.html dist/index.html"
+    "build:prod": "webpack -p && cp src/index.html dist/index.html",
+    "win-build": "webpack -d & copy src/index.html public/index.html & webpack-dev-server --content-base src/  --inline --hot --history-api-fallback",
+    "win-build:prod": "webpack -p & copy src/index.html dist/index.html"
   },
   "keywords": [
-    "boilerplate"
+    "dhis-mfl-client"
   ],
-  "author": "Evans Munene",
+  "author": "HealthIT",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/muneneevans/react-js-bolierplate/issues"
+    "url": "https://github.com/uonafya/dhis-mfl-client/issues"
   },
-  "homepage": "https://github.com/muneneevans/react-js-bolierplate#readme",
+  "homepage": "https://github.com/uonafya/dhis-mfl-client#readme",
   "dependencies": {
     "history": "^4.6.3",
     "material-ui": "^1.0.0-beta.5",
