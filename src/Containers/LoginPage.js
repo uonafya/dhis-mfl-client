@@ -38,6 +38,11 @@ class LoginPage extends Component {
         gutter: '16',
     }
 
+    componentDidMount(){
+        this.props.authenticationActions.mflApiAuth()
+    }
+    
+
     handleChange = key => (event, value) => {
         this.setState({
             [key]: value,
@@ -65,7 +70,6 @@ class LoginPage extends Component {
                         </Grid>
                     </Grid>
                 </Grid >
-
             </Grid >
         )
     }
@@ -78,6 +82,8 @@ LoginPage.propTypes = {
 const mapStateToProps = (state, ownProps) => {
     return {
         // userInformation : authenticationSelectors.getUserInformation(state)
+        //mflAuthKey: authenticationSelectors.getAuthKey(state),
+        mflUserInformation: authenticationSelectors.getMflUserInformation(state)
     }
 }
 
