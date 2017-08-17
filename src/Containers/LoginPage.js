@@ -39,7 +39,7 @@ class LoginPage extends Component {
     }
 
     componentDidMount(){
-        this.props.authenticationActions.mflApiAuth()
+        //this.props.authenticationActions.mflApiAuth()
     }
     
 
