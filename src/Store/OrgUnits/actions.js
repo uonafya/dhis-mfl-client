@@ -42,20 +42,16 @@ export function addOrgUnits(orgUnits) {
 }
 
 
-export function getFacilities(pageNumber = 1) {
+export function getFacilities(wardId, pageNumber = 1) {
     return function (dispatch, getState) {
         dispatch({ type: types.FACILITIES_REQUESTED })
-        Dhis2Service.getOrgUnits(1, pageNumber)
-            .then(orgUnits => {
-                //check if page end of page                
-                if (orgUnits.pager.page < orgUnits.pager.pageCount) {
-                    dispatch(addFacilities(orgUnits.organisationUnits))
-                    return dispatch(getOrgUnits(1, pageNumber + 1))
-                }
-                else {
-                    return
-                }
 
+        Dhis2Service.getOrgUnitChildren(wardId)
+            .then(wardFacilities => {
+                dispatch({
+                    type: types.FACILITIES_RECEIVED,
+                    facilities: wardFacilities.children
+                })
             })
             .catch(error => {
                 throw (error)
@@ -83,7 +79,7 @@ export function getCounties(pageNumber = 1) {
                     return dispatch(getOrgUnits(1, pageNumber + 1))
                 }
                 else {
-                    if (orgUnits.pager.page == 1){
+                    if (orgUnits.pager.page == 1) {
                         dispatch(addCounties(orgUnits.organisationUnits))
                         return dispatch(getOrgUnits(1, pageNumber + 1))
                     }
@@ -97,7 +93,7 @@ export function getCounties(pageNumber = 1) {
     }
 }
 
-export function addCounties(counties) {    
+export function addCounties(counties) {
     return function (dispatch, getState) {
         return dispatch({
             type: types.ADD_COUNTIES,
@@ -106,17 +102,30 @@ export function addCounties(counties) {
     }
 }
 
-export function getConstituencies( countyId) {
+export function getConstituencies(countyId) {
     return function (dispatch, getState) {
         Dhis2Service.getOrgUnitChildren(countyId)
-            .then(orgUnitChildren =>{                
+            .then(countyConstituencies => {
                 dispatch({
                     type: types.CONSTITUENCIES_RECEIVED,
-                    constituencies: orgUnitChildren.children
+                    constituencies: countyConstituencies.children
                 })
             })
-            .catch(error =>{
-                throw(error)
+            .catch(error => {
+                throw (error)
             })
+    }
+}
+
+export function getWards(constituencyId) {
+    return function (dispatch, getState) {
+        Dhis2Service.getOrgUnitChildren(constituencyId)
+            .then(constituencyWards => {
+                dispatch({
+                    type: types.WARDS_RECEIVED,
+                    wards: constituencyWards.children
+                })
+            })
+            .catch(error => { })
     }
 }

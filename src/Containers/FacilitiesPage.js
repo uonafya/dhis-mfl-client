@@ -18,23 +18,24 @@ import { orgLevels } from "../Store/OrgUnits/actions"
 
 import OrgUnitItem from "../Components/OrgUnitItem"
 import OrgUnitForm from "../Components/OrgUnitForm"
+import WardItem from "../Components/WardItem"
 
 const styles = theme => ({
     root: {
-        width: '100%',
-        maxWidth: '360px',
-        background: theme.palette.background.paper,
+      flexGrow: 1,
+    },
+    demo: {
+      height: 240,
     },
     paper: {
-        padding: theme.spacing.unit * 2,
-        height: '100%',
+      padding: theme.spacing.unit * 2,
+      height: '100%',
     },
     control: {
-        padding: theme.spacing.unit * 2
-    }
-})
-
-
+      padding: theme.spacing.unit * 2,
+    },
+  })
+  
 class FacilitiesPage extends Component {
 
     componentDidMount() {
@@ -45,35 +46,38 @@ class FacilitiesPage extends Component {
         const classes = this.props.classes
         return (
             <Grid container spacing={24}>
-                <Grid item xs={12} sm={4}>
-                    <Card className={classes.control}  >
-                        {
-                            this.props.countiesIsFetched ? (
-                                <OrgUnitForm
-                                    counties={this.props.counties} 
-                                    constituenciesIsFetched={this.props.constituenciesIsFetched}
-                                    constituencies={this.props.constituencies}
-                                    getConstituencies={this.props.orgUnitActions.getConstituencies}/>
-                            ) : (
-                                <h4>Loading</h4>
-                            )
-                        }
-                    </Card>
-                    <Paper className={classes.paper}>
-                        {
-                            this.props.orgUnitsIsFetched ? (
-                                <List className={classes.root}>
-                                    {
-                                        this.props.orgUnits.map((orgUnits, i) => (
-                                            <OrgUnitItem key={i} orgUnit={orgUnits} />
-                                        ))
-                                    }
-                                </List>
-                            ) : (
-                                    <h4>Loading</h4>
-                                )
-                        }
-                    </Paper>
+                <Grid item xs={12} sm={4} >
+                    <Grid container spacing={24} direction='column' justify='flex-start' >
+                        <Card className={classes.control}  >
+                            {
+                                this.props.countiesIsFetched ? (
+                                    <OrgUnitForm
+                                        counties={this.props.counties}
+                                        constituenciesIsFetched={this.props.constituenciesIsFetched}
+                                        constituencies={this.props.constituencies}
+                                        getConstituencies={this.props.orgUnitActions.getConstituencies}
+                                        getWards={this.props.orgUnitActions.getWards} />
+                                ) : (
+                                        <h4>Loading</h4>
+                                    )
+                            }
+                        </Card>
+                        <Paper className={classes.paper}>
+                            {
+                                this.props.wardsIsFetched ? (
+                                    <List >
+                                        {
+                                            this.props.wards.map((ward, i) => (
+                                                <WardItem key={i} ward={ward} />
+                                            ))
+                                        }
+                                    </List>
+                                ) : (
+                                        <h4>Loading</h4>
+                                    )
+                            }
+                        </Paper>
+                    </Grid>
                 </Grid>
                 <Grid item xs={12} sm={8}>
                     <Paper className={classes.paper}>
@@ -110,7 +114,13 @@ const mapStateToProps = (state, ownProps) => {
         counties: orgUnitSelectors.getCounties(state),
 
         constituenciesIsFetched: orgUnitSelectors.getConstituencyFetchStatus(state),
-        constituencies: orgUnitSelectors.getConstituencies(state)
+        constituencies: orgUnitSelectors.getConstituencies(state),
+
+        wardsIsFetched: orgUnitSelectors.getWardsFetchedStatus(state),
+        wards: orgUnitSelectors.getWards(state),
+
+        facilitiesIsFetched: orgUnitSelectors.getFacilityFetchStatus(state),
+        facilities: orgUnitSelectors.getFacilities(state)
     }
 }
 

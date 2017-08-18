@@ -25,7 +25,7 @@ export const OrgUnitForm = (props) => {
     }
 
     const handleConstituencyChanged = (event) => {
-
+        props.getWards(event.target.value)
     }
 
     const classes = props.classes
@@ -47,9 +47,7 @@ export const OrgUnitForm = (props) => {
                             <option
                                 key={i}
                                 value={county.id}>
-
                                 {county.name}
-
                             </option>
                         ))
                     }
