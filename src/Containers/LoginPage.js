@@ -64,9 +64,7 @@ class LoginPage extends Component {
 
                         <Grid item sm={4} md={3}>
                             <Card className={classes.paper}>
-                                <LoginForm
-                                    submitAction={this.props.authenticationActions.logIn}
-                                    checkMflUserDetails={this.props.authenticationActions.mflUserDetails}/>
+                                
                             </Card>
                         </Grid>
                     </Grid>
@@ -83,8 +81,8 @@ LoginPage.propTypes = {
 const mapStateToProps = (state, ownProps) => {
     return {
         // userInformation : authenticationSelectors.getUserInformation(state)
-        mflAuthKey: authenticationSelectors.getAuthKey(state),
-        mflUserInformation: authenticationSelectors.getMflUserInformation(state)
+        // mflAuthKey: authenticationSelectors.getAuthKey(state),
+        // mflUserInformation: authenticationSelectors.getMflUserInformation(state)
     }
 }
 

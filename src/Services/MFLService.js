@@ -80,10 +80,10 @@ export default class MFLService {
 
     static getOrgUnits(mflCodes){
         const accesToken = JSON.parse(sessionStorage.getItem("mflAccessToken"))
-        const url = this.host+"/api/facilities/facilities/?code"+mflCodes
+        const url = this.host+"/api/facilities/facilities/?code="+mflCodes
 
         const request = {
-            method: "POST",
+            method: "GET",
             headers: new Headers({
                 "Content-Type": "application/json",
                 "Vary": "Accept",
