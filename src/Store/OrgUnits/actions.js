@@ -41,3 +41,226 @@ export function getMflFacilities(mflCodes){
             })
     }
 }
+
+export function resolveMflFacility(orgUnitsMeta){
+
+    var initialEntry = localStorage.getItem("initialEntry")
+
+    if(initialEntry!==1){
+        localStorage.setObject("orgUnitsMetaObjectArray", orgUnitsMeta)
+        localStorage.setItem("orgUnitsMetaObjectArrayCount", orgUnitsMeta.length)
+        
+        if(initialEntry!==1){localStorage.setItem("orgUnitsMetaIterratorCursorPos", 0)}
+
+        localStorage.setItem("initialEntry", 1)
+
+        const fn = (dispatch, getState) => {
+            dispatch({
+                type: types.MFL_FACILITY_RESOLUTION_STARTED
+            })
+        }
+
+        fn
+        console.log("@ Resolve Facility Action", localStorage.getObject("orgUnitsMetaObjectArray"))
+    }
+
+    var orgUnitsMetaIterratorCursorPos = localStorage.getItem("orgUnitsMetaIterratorCursorPos")
+    var dhis2FacilityName = orgUnitsMeta[orgUnitsMetaIterratorCursorPos].dhis2Name
+    var dhis2FacilityCode = orgUnitsMeta[orgUnitsMetaIterratorCursorPos].dhis2Code
+
+    var orgUnitMeta = {
+        type: "getByNameAndCode",
+        endPoint: "name="+dhis2FacilityName+"&code="+dhis2FacilityCode
+    }
+
+    MFLService.getOrgUnit(orgUnitMeta)
+        .then(response => {
+            if(response.count > 1){
+
+                orgUnitMeta = {
+                    type: "getByName",
+                    endPoint: "name="+dhis2FacilityName
+                }
+
+                MFLService.getOrgUnit(orgUnitMeta)
+                    .then(response => {
+                        if(response.count > 1){
+
+                            orgUnitMeta = {
+                                type: "getByCode",
+                                endPoint: "code="+dhis2FacilityCode
+                            }
+
+                            MFLService.getOrgUnit(orgUnitMeta)
+                                .then(response => {
+                                    if(response.count === 1){
+                                        localStorage.getObject("orgUnitsMetaObjectArray")
+                                        [localStorage.getItem("orgUnitsMetaIterratorCursorPos")]
+                                            .push(name,{didResolve:0})
+                                            .push(code,{didResolve:1,meta:{mflCode:response.code}})
+                        
+                                            if(localStorage.getItem("orgUnitsMetaIterratorCursorPos")
+                                                < localStorage.getItem("orgUnitsMetaObjectArrayCount")){
+                            
+                                                    localStorage.setItem("orgUnitsMetaIterratorCursorPos", 
+                                                    localStorage.getItem("orgUnitsMetaIterratorCursorPos")+1) 
+                            
+                                                    resolveMflFacility(localStorage.getObject("orgUnitsMetaObjectArray"))
+                                            }else{
+                            
+                                                var toEvans = localStorage.getObject("orgUnitsMetaObjectArray")
+                            
+                                                localStorage.setItem("initialEntry", 0)
+                                                return (dispatch, getState) => {
+                                                    dispatch({
+                                                        type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
+                                                        resolvedMflFacilities: toEvans
+                                                    })
+                                                }
+                                            }
+                                    }else{
+
+                                        localStorage.getObject("orgUnitsMetaObjectArray")
+                                        [localStorage.getItem("orgUnitsMetaIterratorCursorPos")]
+                                            .push(name,{didResolve:0}).push(code,{didResolve:0})
+                        
+                                        if(localStorage.getItem("orgUnitsMetaIterratorCursorPos")
+                                            < localStorage.getItem("orgUnitsMetaObjectArrayCount")){
+                        
+                                                localStorage.setItem("orgUnitsMetaIterratorCursorPos", 
+                                                localStorage.getItem("orgUnitsMetaIterratorCursorPos")+1) 
+                        
+                                                resolveMflFacility(localStorage.getObject("orgUnitsMetaObjectArray"))
+                                        }else{
+                        
+                                            var toEvans = localStorage.getObject("orgUnitsMetaObjectArray")
+                        
+                                            localStorage.setItem("initialEntry", 0)
+                                            return (dispatch, getState) => {
+                                                dispatch({
+                                                    type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
+                                                    resolvedMflFacilities: toEvans
+                                                })
+                                            }
+                                        }
+                                    }
+                                })
+                                .catch(error => {
+                                    throw(error)
+                                })
+
+                        }else if(response.count === 1){
+                            localStorage.getObject("orgUnitsMetaObjectArray")
+                            [localStorage.getItem("orgUnitsMetaIterratorCursorPos")]
+                                .push(name,{didResolve:1,meta:{mflName:response.name}})
+                                .push(code,{didResolve:0})
+            
+                                if(localStorage.getItem("orgUnitsMetaIterratorCursorPos")
+                                    < localStorage.getItem("orgUnitsMetaObjectArrayCount")){
+                
+                                        localStorage.setItem("orgUnitsMetaIterratorCursorPos", 
+                                        localStorage.getItem("orgUnitsMetaIterratorCursorPos")+1) 
+                
+                                        resolveMflFacility(localStorage.getObject("orgUnitsMetaObjectArray"))
+                                }else{
+                
+                                    var toEvans = localStorage.getObject("orgUnitsMetaObjectArray")
+                
+                                    localStorage.setItem("initialEntry", 0)
+                                    return (dispatch, getState) => {
+                                        dispatch({
+                                            type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
+                                            resolvedMflFacilities: toEvans
+                                        })
+                                    }
+                                }
+                        }else{
+                            localStorage.getObject("orgUnitsMetaObjectArray")
+                            [localStorage.getItem("orgUnitsMetaIterratorCursorPos")]
+                                .push(name,{didResolve:0}).push(code,{didResolve:0})
+            
+                            if(localStorage.getItem("orgUnitsMetaIterratorCursorPos")
+                                < localStorage.getItem("orgUnitsMetaObjectArrayCount")){
+            
+                                    localStorage.setItem("orgUnitsMetaIterratorCursorPos", 
+                                    localStorage.getItem("orgUnitsMetaIterratorCursorPos")+1) 
+            
+                                    resolveMflFacility(localStorage.getObject("orgUnitsMetaObjectArray"))
+                            }else{
+            
+                                var toEvans = localStorage.getObject("orgUnitsMetaObjectArray")
+            
+                                localStorage.setItem("initialEntry", 0)
+                                return (dispatch, getState) => {
+                                    dispatch({
+                                        type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
+                                        resolvedMflFacilities: toEvans
+                                    })
+                                }
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        throw(error)
+                    })
+
+
+            }else if(response.count === 1){
+
+                localStorage.getObject("orgUnitsMetaObjectArray")
+                [localStorage.getItem("orgUnitsMetaIterratorCursorPos")]
+                    .push(name,{didResolve:1,meta:{mflName:response.name}})
+                    .push(code,{didResolve:1,meta:{mflCode:response.code}})
+
+                    if(localStorage.getItem("orgUnitsMetaIterratorCursorPos")
+                        < localStorage.getItem("orgUnitsMetaObjectArrayCount")){
+    
+                            localStorage.setItem("orgUnitsMetaIterratorCursorPos", 
+                            localStorage.getItem("orgUnitsMetaIterratorCursorPos")+1) 
+    
+                            resolveMflFacility(localStorage.getObject("orgUnitsMetaObjectArray"))
+                    }else{
+    
+                        var toEvans = localStorage.getObject("orgUnitsMetaObjectArray")
+    
+                        localStorage.setItem("initialEntry", 0)
+                        return (dispatch, getState) => {
+                            dispatch({
+                                type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
+                                resolvedMflFacilities: toEvans
+                            })
+                        }
+                    }
+
+            }else{
+
+                localStorage.getObject("orgUnitsMetaObjectArray")
+                [localStorage.getItem("orgUnitsMetaIterratorCursorPos")]
+                    .push(name,{didResolve:0}).push(code,{didResolve:0})
+
+                if(localStorage.getItem("orgUnitsMetaIterratorCursorPos")
+                    < localStorage.getItem("orgUnitsMetaObjectArrayCount")){
+
+                        localStorage.setItem("orgUnitsMetaIterratorCursorPos", 
+                        localStorage.getItem("orgUnitsMetaIterratorCursorPos")+1) 
+
+                        resolveMflFacility(localStorage.getObject("orgUnitsMetaObjectArray"))
+                }else{
+
+                    var toEvans = localStorage.getObject("orgUnitsMetaObjectArray")
+
+                    localStorage.setItem("initialEntry", 0)
+                    return (dispatch, getState) => {
+                        dispatch({
+                            type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
+                            resolvedMflFacilities: toEvans
+                        })
+                    }
+                }
+            }
+        })
+        .catch(error => {
+            throw(error)
+        })
+
+}

@@ -27,3 +27,15 @@ export function getMflFacilityDetails(state, mflCode){
 
     return [{"name": "default"}]
 }
+
+export function getResolvedMflFacilities(state){
+    return state.facilityReducer.resolvedMflFacilities
+}
+
+export function getMflFacilityResolutionIsStarted(state){
+    return state.facilityReducer.mflFacilityResolutionIsStarted
+}
+
+export function getMflFacilityResolutionIsCompleted(state){
+    return state.facilityReducer.mflFacilityResolutionIsCompleted
+}

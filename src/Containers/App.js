@@ -8,6 +8,7 @@ import Home from "./Home"
 import LoginPage from "./LoginPage"
 import Header from "../Components/Header"
 import FacilitiesPage from "./FacilitiesPage"
+import FacilityResolutionPage from "./FacilityResolutionPage"
 
 export default class App extends Component {
     render() {
@@ -17,6 +18,7 @@ export default class App extends Component {
                 <Route exact path="/" component={Home} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/facilities" component={FacilitiesPage}/>
+                <Route path="/resolution" component={FacilityResolutionPage}/>
             </div>
         )
     }

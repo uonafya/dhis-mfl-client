@@ -73,7 +73,10 @@ const mapStateToProps = (state, ownProps) => {
         facilitiesIsFetched: facilitySelectors.getFacilitiesFetchStatus(state),
         facilities: facilitySelectors.getFacilities(state),
         mflFacilitiesIsFetched: facilitySelectors.getMflFacilitiesFetchStatus(state),
-        mflFacilities: facilitySelectors.getMflFacilities(state)
+        mflFacilities: facilitySelectors.getMflFacilities(state),
+        // resolvedMflFacilities: facilitySelectors.getResolvedMflFacilities(state),
+        // mflFacilityResolutionIsStarted: facilitySelectors.getMflFacilityResolutionIsStarted(state),
+        // mflFacilityResolutionIsCompleted: facilitySelectors.getMflFacilityResolutionIsCompleted(state)
     }
 }
 

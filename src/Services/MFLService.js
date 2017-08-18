@@ -105,4 +105,39 @@ export default class MFLService {
             return error
         })
     }
+
+    /**
+     * 
+     * @param {*} orgUnitMeta = {
+     *                              type: "getByName" or "getByCode" or "getByNameAndCode".
+     *                              endPoint: "name=[name]" or "code=[code]" or "name=[name]&code=[code]"
+     *                          }
+     */
+    static getOrgUnit(orgUnitMeta){
+        const accesToken = JSON.parse(sessionStorage.getItem("mflAccessToken"))
+        const url = this.host+"/api/facilities/facilities/?"+orgUnitMeta.endPoint
+
+        const request = {
+            method: "GET",
+            headers: new Headers({
+                "Content-Type": "application/json",
+                "Vary": "Accept",
+                "Accept": "application/json",
+                "Authorization": "Bearer "+accesToken.access_token
+            }),
+            json: true
+        }
+
+        return fetch(url, request)
+        .then(response => {
+            console.log("@Get Org Units - MFL Service ", response)
+            if (response.status != 200) {
+
+            }
+            return response.json()
+        })
+        .catch(error => {
+            return error
+        })
+    }
 }
