@@ -11,6 +11,9 @@ const initialState = Immutable({
     countiesIsFetched: false,
     counties: [],
 
+    constituenciesIsFetched: false,
+    constituencies: []
+
 })
 
 export default function facilityReducer(state=initialState, action={}){
@@ -39,10 +42,19 @@ export default function facilityReducer(state=initialState, action={}){
         case types.COUNTIES_REQUESTED:
             return state
         
-        case types.COUNTIES_RECEIVED:
+        case types.ADD_COUNTIES:            
             return state.merge({
                 counties: [...state.counties, ...action.counties],
                 countiesIsFetched: true
+            })
+
+        case types.CONSTITUENCIES_REQUESTED:
+            return state
+        
+        case types.CONSTITUENCIES_RECEIVED:
+            return state.merge({
+                constituencies: action.constituencies,
+                constituenciesIsFetched: true
             })
         default:
             return state

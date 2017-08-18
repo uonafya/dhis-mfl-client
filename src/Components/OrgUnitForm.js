@@ -19,9 +19,9 @@ const styles = theme => ({
 })
 
 
-export const OrgUnitForm = ({counties, constituencies }) => {
+export const OrgUnitForm = (props) => {
     const handleCountyChanged = (event) => {
-
+        props.getConstituencies(event.target.value)
     }
 
     const handleConstituencyChanged = (event) => {
@@ -33,19 +33,17 @@ export const OrgUnitForm = ({counties, constituencies }) => {
 
         <FormControl
             fullWidth={true}
-            >
+        >
             <FormGroup>
+
                 <select
                     id="county"
                     label="county"
                     className={classes.textField}
                     onChange={handleCountyChanged.bind(this)}
-                />
-                <select
-                    onChange={handleChange.bind(this)}
                     placeholder='select a county'>
                     {
-                        counties.map((county, i) => (
+                        props.counties.map((county, i) => (
                             <option
                                 key={i}
                                 value={county.id}>
@@ -56,14 +54,29 @@ export const OrgUnitForm = ({counties, constituencies }) => {
                         ))
                     }
                 </select>
-                <select
-                    id="password"
-                    label="password"                    
-                    className={classes.textField}
-                    margin="normal"
-                    onChange={handleConstituencyChanged.bind(this)}
-                />
-            </FormGroup>            
+                {
+                    props.constituenciesIsFetched ? (
+                        <select
+                            id="password"
+                            label="password"
+                            className={classes.textField}
+                            onChange={handleConstituencyChanged.bind(this)}>
+                            {
+                                props.constituencies.map((constituency, i) =>(
+                                    <option
+                                        key={i}
+                                        value={constituency.id}>
+                                        {constituency.name}
+                                    </option>
+                                ))
+                            }
+                        </select>
+
+                    ) : (
+                        <h4>Loading</h4>
+                    )
+                }
+            </FormGroup>
         </FormControl >
     )
 }

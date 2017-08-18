@@ -50,8 +50,10 @@ class FacilitiesPage extends Component {
                         {
                             this.props.countiesIsFetched ? (
                                 <OrgUnitForm
-                                    counties={this.props.counties} />
-
+                                    counties={this.props.counties} 
+                                    constituenciesIsFetched={this.props.constituenciesIsFetched}
+                                    constituencies={this.props.constituencies}
+                                    getConstituencies={this.props.orgUnitActions.getConstituencies}/>
                             ) : (
                                 <h4>Loading</h4>
                             )
@@ -105,7 +107,10 @@ const mapStateToProps = (state, ownProps) => {
         orgUnits: orgUnitSelectors.getOrgUnits(state),
 
         countiesIsFetched: orgUnitSelectors.getCountyFetchStatus(state),
-        counties: orgUnitSelectors.getCounties(state)
+        counties: orgUnitSelectors.getCounties(state),
+
+        constituenciesIsFetched: orgUnitSelectors.getConstituencyFetchStatus(state),
+        constituencies: orgUnitSelectors.getConstituencies(state)
     }
 }
 

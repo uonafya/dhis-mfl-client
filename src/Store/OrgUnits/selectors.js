@@ -22,3 +22,11 @@ export function getCountyFetchStatus(state){
 export function getCounties(state){
     return state.facilityReducer.counties
 }
+
+export function getConstituencyFetchStatus(state){
+    return state.facilityReducer.constituenciesIsFetched
+}
+
+export function getConstituencies(state){
+    return state.facilityReducer.constituencies
+}

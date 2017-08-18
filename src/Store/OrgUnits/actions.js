@@ -63,8 +63,8 @@ export function getFacilities(pageNumber = 1) {
     }
 }
 
-export function addFacilities(facilities){
-    return function (dispatch, getState){
+export function addFacilities(facilities) {
+    return function (dispatch, getState) {
         return dispatch({
             type: types.ADD_FACILITIES,
             facilities
@@ -75,7 +75,7 @@ export function addFacilities(facilities){
 export function getCounties(pageNumber = 1) {
     return function (dispatch, getState) {
         dispatch({ type: types.COUNTIES_REQUESTED })
-        Dhis2Service.getOrgUnits(1, pageNumber)
+        Dhis2Service.getOrgUnits(2, pageNumber)
             .then(orgUnits => {
                 //check if page end of page                
                 if (orgUnits.pager.page < orgUnits.pager.pageCount) {
@@ -83,6 +83,10 @@ export function getCounties(pageNumber = 1) {
                     return dispatch(getOrgUnits(1, pageNumber + 1))
                 }
                 else {
+                    if (orgUnits.pager.page == 1){
+                        dispatch(addCounties(orgUnits.organisationUnits))
+                        return dispatch(getOrgUnits(1, pageNumber + 1))
+                    }
                     return
                 }
 
@@ -93,11 +97,26 @@ export function getCounties(pageNumber = 1) {
     }
 }
 
-export function addCounties(counties){
-    return function (dispatch, getState){        
+export function addCounties(counties) {    
+    return function (dispatch, getState) {
         return dispatch({
             type: types.ADD_COUNTIES,
             counties
         })
+    }
+}
+
+export function getConstituencies( countyId) {
+    return function (dispatch, getState) {
+        Dhis2Service.getOrgUnitChildren(countyId)
+            .then(orgUnitChildren =>{                
+                dispatch({
+                    type: types.CONSTITUENCIES_RECEIVED,
+                    constituencies: orgUnitChildren.children
+                })
+            })
+            .catch(error =>{
+                throw(error)
+            })
     }
 }
