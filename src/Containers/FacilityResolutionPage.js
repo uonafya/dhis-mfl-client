@@ -33,34 +33,7 @@ class FacilityResolutionPage extends Component {
     componentDidMount() {
 
         //this.props.facilityActions.getFacilities()
-        this.props.facilityActions.resolveMflFacility(
-            [
-                {
-                    id: "FTVmVryLXiE",
-                    dhis2Name: "Chematich",
-                    dhis2Code: "23053"
-                },
-                {
-                    id: "Smgomyf1mXV",
-                    dhis2Name: "Besiobei",
-                    dhis2Code: "23007"
-                },
-                {
-                    id: "LgEtXZGfmKk",
-                    dhis2Name: "kapkoma",
-                    dhis2Code: "23006"
-                },
-                {
-                    id: "Smgomyf1mXV",
-                    dhis2Name: "Amani Dispensary",
-                    dhis2Code: "23004"
-                },
-                {
-                    id: "LgEtXZGfmKk",
-                    dhis2Name: "huruma testhuruma test",
-                    dhis2Code: "23003"
-                },
-            ])
+        this.props.facilityActions.resolveMflFacility((require("json-loader!../../data/test-data.json")))
         //console.log("@Facilities Page:", this.props.mflFacilities, this.props.mflFacilitiesIsFetched)
     }
 
@@ -86,7 +59,7 @@ class FacilityResolutionPage extends Component {
                                     this.props.mflFacilityResolutionIsStarted ? (
                                         <div>
                                             <h3>Loading Facilities from MFL...</h3>
-                                            <p>MFL-DHIS2 Resolution started... Realtime status updates coming soon!</p>
+                                            <p>{this.props.mflFacilityResolutionStatus}</p>
                                         </div>
                                     ) : (
                                         <h3>Error! Resolution failed to start</h3>
@@ -112,7 +85,8 @@ const mapStateToProps = (state, ownProps) => {
         // mflFacilities: facilitySelectors.getMflFacilities(state),
         resolvedMflFacilities: facilitySelectors.getResolvedMflFacilities(state),
         mflFacilityResolutionIsStarted: facilitySelectors.getMflFacilityResolutionIsStarted(state),
-        mflFacilityResolutionIsCompleted: facilitySelectors.getMflFacilityResolutionIsCompleted(state)
+        mflFacilityResolutionIsCompleted: facilitySelectors.getMflFacilityResolutionIsCompleted(state),
+        mflFacilityResolutionStatus: facilitySelectors.getMflFacilityResolutionStatus(state)
     }
 }
 
