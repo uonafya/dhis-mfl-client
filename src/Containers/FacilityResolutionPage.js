@@ -58,7 +58,7 @@ class FacilityResolutionPage extends Component {
                                 {
                                     this.props.mflFacilityResolutionIsStarted ? (
                                         <div>
-                                            <h3>Loading Facilities from MFL...</h3>
+                                            <h3>Loading... Please wait</h3>
                                             <p>{this.props.mflFacilityResolutionStatus}</p>
                                         </div>
                                     ) : (

@@ -323,6 +323,8 @@ export function resolveMflFacility(orgUnitsMeta){
                     }else{
     
                         var toEvans = getObject("resolutionResults")
+
+                        //console.log("To EVans Obj",toEvans)
     
                         clearLocalStorage()
                         
