@@ -9,6 +9,7 @@ const initialState = Immutable({
     mflFacilityResolutionIsStarted: false,
     mflFacilityResolutionStatus: undefined,
     resolvedMflFacilities: undefined,
+    mflFacilityResolutionSummary: undefined,
     mflFacilityResolutionIsCompleted: false
 })
 
@@ -43,11 +44,12 @@ export default function facilityReducer(state=initialState, action={}){
             })
 
         case types.MFL_FACILITY_RESOLUTION_COMPLETED:
-        console.log("@ Reducer Bruh!")
+            console.log("@ Reducer Bruh!")
             return state.merge({
                 mflFacilityResolutionIsCompleted: true,
                 mflFacilityResolutionIsStarted: false,
-                resolvedMflFacilities: action.resolvedMflFacilities
+                resolvedMflFacilities: action.resolvedMflFacilities,
+                mflFacilityResolutionSummary: action.mflFacilityResolutionSummary
             })
 
         default:

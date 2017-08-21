@@ -54,6 +54,9 @@ export function resolveMflFacility(orgUnitsMeta){
         setObject("resolutionResults", results)
         setObject("orgUnitsMetaObjectArray", orgUnitsMeta)
         localStorage.setItem("orgUnitsMetaObjectArrayCount", orgUnitsMeta.length)
+        localStorage.setItem("resolvedNamesAndCodes", 0)
+        localStorage.setItem("resolvedNames", 0)
+        localStorage.setItem("resolvedCodes", 0)
         
         if(initialEntry!==1){localStorage.setItem("orgUnitsMetaIterratorCursorPos", 0)}
 
@@ -123,6 +126,8 @@ export function resolveMflFacility(orgUnitsMeta){
                                         oldObj.push(update)
                                         setObject("resolutionResults", oldObj)
                                         //console.log(getObject("resolutionResults"), "responseObj", response)
+                                        localStorage.setItem("resolvedCodes",
+                                            parseInt(localStorage.getItem("resolvedCodes"))+1)
                         
                                             if((parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))+1)
                                                 < parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))){
@@ -136,12 +141,22 @@ export function resolveMflFacility(orgUnitsMeta){
                                             }else{
                             
                                                 var toEvans = getObject("resolutionResults")
+                                                var stats = {
+                                                    "resolvedNamesAndCodes": parseInt(localStorage.getItem("resolvedNamesAndCodes")),
+                                                    "resolvedNames": parseInt(localStorage.getItem("resolvedNames")),
+                                                    "resolvedCodes": parseInt(localStorage.getItem("resolvedCodes")),
+                                                    "total": parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))
+                                                }
+                        
+                                                //console.log("To EVans Obj",toEvans)
                             
                                                 clearLocalStorage()
                                                 
                                                 store.dispatch({
                                                     type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
-                                                    resolvedMflFacilities: toEvans
+                                                    resolvedMflFacilities: toEvans,
+                                                    mflFacilityResolutionSummary: stats
+                        
                                                 })
                                             }
                                     }else{
@@ -178,12 +193,22 @@ export function resolveMflFacility(orgUnitsMeta){
                                         }else{
                         
                                             var toEvans = getObject("resolutionResults")
-                                            
+                                            var stats = {
+                                                "resolvedNamesAndCodes": parseInt(localStorage.getItem("resolvedNamesAndCodes")),
+                                                "resolvedNames": parseInt(localStorage.getItem("resolvedNames")),
+                                                "resolvedCodes": parseInt(localStorage.getItem("resolvedCodes")),
+                                                "total": parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))
+                                            }
+                    
+                                            //console.log("To EVans Obj",toEvans)
+                        
                                             clearLocalStorage()
                                             
                                             store.dispatch({
                                                 type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
-                                                resolvedMflFacilities: toEvans
+                                                resolvedMflFacilities: toEvans,
+                                                mflFacilityResolutionSummary: stats
+                    
                                             })
                                         }
                                     }
@@ -216,6 +241,8 @@ export function resolveMflFacility(orgUnitsMeta){
                             oldObj.push(update)
                             setObject("resolutionResults", oldObj)
                             //console.log(getObject("resolutionResults"), "responseObj", response)
+                            localStorage.setItem("resolvedNames",
+                                parseInt(localStorage.getItem("resolvedNames"))+1)
             
                                 if((parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))+1)
                                     < parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))){
@@ -229,12 +256,22 @@ export function resolveMflFacility(orgUnitsMeta){
                                 }else{
                 
                                     var toEvans = getObject("resolutionResults")
+                                    var stats = {
+                                        "resolvedNamesAndCodes": parseInt(localStorage.getItem("resolvedNamesAndCodes")),
+                                        "resolvedNames": parseInt(localStorage.getItem("resolvedNames")),
+                                        "resolvedCodes": parseInt(localStorage.getItem("resolvedCodes")),
+                                        "total": parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))
+                                    }
+            
+                                    //console.log("To EVans Obj",toEvans)
                 
                                     clearLocalStorage()
                                     
                                     store.dispatch({
                                         type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
-                                        resolvedMflFacilities: toEvans
+                                        resolvedMflFacilities: toEvans,
+                                        mflFacilityResolutionSummary: stats
+            
                                     })
                                 }
                         }else{
@@ -271,12 +308,22 @@ export function resolveMflFacility(orgUnitsMeta){
                             }else{
             
                                 var toEvans = getObject("resolutionResults")
-                                
+                                var stats = {
+                                    "resolvedNamesAndCodes": parseInt(localStorage.getItem("resolvedNamesAndCodes")),
+                                    "resolvedNames": parseInt(localStorage.getItem("resolvedNames")),
+                                    "resolvedCodes": parseInt(localStorage.getItem("resolvedCodes")),
+                                    "total": parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))
+                                }
+        
+                                //console.log("To EVans Obj",toEvans)
+            
                                 clearLocalStorage()
                                 
                                 store.dispatch({
                                     type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
-                                    resolvedMflFacilities: toEvans
+                                    resolvedMflFacilities: toEvans,
+                                    mflFacilityResolutionSummary: stats
+        
                                 })
                             }
                         }
@@ -310,6 +357,9 @@ export function resolveMflFacility(orgUnitsMeta){
                 oldObj.push(update)
                 setObject("resolutionResults", oldObj)
                 //console.log(getObject("resolutionResults"), "responseObj", response)
+                localStorage.setItem("resolvedNamesAndCodes",
+                    parseInt(localStorage.getItem("resolvedNamesAndCodes"))+1)
+                    console.log("@NameAndCodeResolved", localStorage.getItem("resolvedNamesAndCodes"))
 
                     if((parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))+1)
                         < parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))){
@@ -323,6 +373,12 @@ export function resolveMflFacility(orgUnitsMeta){
                     }else{
     
                         var toEvans = getObject("resolutionResults")
+                        var stats = {
+                            "resolvedNamesAndCodes": parseInt(localStorage.getItem("resolvedNamesAndCodes")),
+                            "resolvedNames": parseInt(localStorage.getItem("resolvedNames")),
+                            "resolvedCodes": parseInt(localStorage.getItem("resolvedCodes")),
+                            "total": parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))
+                        }
 
                         //console.log("To EVans Obj",toEvans)
     
@@ -330,7 +386,9 @@ export function resolveMflFacility(orgUnitsMeta){
                         
                         store.dispatch({
                             type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
-                            resolvedMflFacilities: toEvans
+                            resolvedMflFacilities: toEvans,
+                            mflFacilityResolutionSummary: stats
+
                         })
                     }
 
@@ -368,12 +426,22 @@ export function resolveMflFacility(orgUnitsMeta){
                 }else{
 
                     var toEvans = getObject("resolutionResults")
-                    
+                    var stats = {
+                        "resolvedNamesAndCodes": parseInt(localStorage.getItem("resolvedNamesAndCodes")),
+                        "resolvedNames": parseInt(localStorage.getItem("resolvedNames")),
+                        "resolvedCodes": parseInt(localStorage.getItem("resolvedCodes")),
+                        "total": parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))
+                    }
+
+                    //console.log("To EVans Obj",toEvans)
+
                     clearLocalStorage()
                     
                     store.dispatch({
                         type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
-                        resolvedMflFacilities: toEvans
+                        resolvedMflFacilities: toEvans,
+                        mflFacilityResolutionSummary: stats
+
                     })
                 }
             }
