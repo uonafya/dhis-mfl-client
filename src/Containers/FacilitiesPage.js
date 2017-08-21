@@ -68,7 +68,8 @@ class FacilitiesPage extends Component {
                                     <List >
                                         {
                                             this.props.wards.map((ward, i) => (
-                                                <WardItem key={i} ward={ward} />
+                                                <WardItem key={i} ward={ward} 
+                                                getFacilities={this.props.orgUnitActions.getFacilities}/>
                                             ))
                                         }
                                     </List>
