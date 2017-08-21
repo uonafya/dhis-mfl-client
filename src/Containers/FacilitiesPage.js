@@ -1,65 +1,108 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
-
-import { withStyles } from 'material-ui/styles'
-import List, { ListItem, ListItemText } from 'material-ui/List'
-import Divider from 'material-ui/Divider'
-import { CircularProgress } from 'material-ui/Progress';
-import Grid from 'material-ui/Grid';
-
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
 
+import { withStyles } from 'material-ui/styles'
+import List, { ListItem, ListItemText, ListItemSecondaryAction } from 'material-ui/List'
+import Divider from 'material-ui/Divider'
+import Paper from "material-ui/Paper"
+import Checkbox from 'material-ui/Checkbox';
+import Grid from 'material-ui/Grid';
+import Card from 'material-ui/Card';
+import { CircularProgress } from 'material-ui/Progress';
+
+import * as orgUnitActions from "../Store/OrgUnits/actions"
+import * as orgUnitSelectors from "../Store/OrgUnits/selectors"
+import { orgLevels } from "../Store/OrgUnits/actions"
 import FacilityDetailsCard from "../Components/FacilityDetailsCard"
 
-import * as facilityActions from "../Store/OrgUnits/actions"
-import * as facilitySelectors from "../Store/OrgUnits/selectors"
-
+import OrgUnitItem from "../Components/OrgUnitItem"
+import OrgUnitForm from "../Components/OrgUnitForm"
+import WardItem from "../Components/WardItem"
 
 const styles = theme => ({
     root: {
-        width: '100%',
-        maxWidth: '360px',
-        background: theme.palette.background.paper,
+        flexGrow: 1,
+    },
+    demo: {
+        height: 240,
+    },
+    paper: {
+        padding: theme.spacing.unit * 2,
+        height: '100%',
+    },
+    control: {
+        padding: theme.spacing.unit * 2,
     },
     progress: {
         margin: `0 ${theme.spacing.unit * 2}px`,
-      },
+    },
 })
-
-
 class FacilitiesPage extends Component {
 
     componentDidMount() {
+        this.props.orgUnitActions.getCounties(orgLevels.counties)
 
-        //this.props.facilityActions.getFacilities()
-        this.props.facilityActions.getMflFacilities([23053,23007,23006,23004,23003,23002,23001,22999,22997,15719])
-        //console.log("@Facilities Page:", this.props.mflFacilities, this.props.mflFacilitiesIsFetched)
     }
 
     render() {
         const classes = this.props.classes
 
         return (
-            <div style={{fontFamily: "Arial"}}>
-                <h1 style={{textAlign: "center"}}>Requested MFL Facilities</h1>
-                {
-                    this.props.mflFacilitiesIsFetched ? (
-                        this.props.mflFacilities.map((facility, i) => (
-                                <div key={i} style={{margin: "50px", marginRight: "35%"}} >
-                                    <FacilityDetailsCard facility={facility} />
-                                </div>
-                            )
-                        )
-                        ) : (
-                            <div style={{marginTop: "10%", textAlign: "center"}}>
-                                <CircularProgress className={classes.progress} size={50} />
-                                <br />
-                                <h3>Loading Facilities from MFL...</h3>
-                            </div>
-                        )
-                }
-            </div>
+            <Grid container spacing={24}>
+                <Grid item xs={12} sm={4} >
+                    <Grid container spacing={24} direction='column' justify='flex-start' >
+                        <Card className={classes.control}  >
+                            {
+                                this.props.countiesIsFetched ? (
+                                    <OrgUnitForm
+                                        counties={this.props.counties}
+                                        constituenciesIsFetched={this.props.constituenciesIsFetched}
+                                        constituencies={this.props.constituencies}
+                                        getConstituencies={this.props.orgUnitActions.getConstituencies}
+                                        getWards={this.props.orgUnitActions.getWards} />
+                                ) : (
+                                        <h4>Loading</h4>
+                                    )
+                            }
+                        </Card>
+                        <Paper className={classes.paper}>
+                            {
+                                this.props.wardsIsFetched ? (
+                                    <List >
+                                        {
+                                            this.props.wards.map((ward, i) => (
+                                                <WardItem key={i} ward={ward}
+                                                    getFacilities={this.props.orgUnitActions.getFacilities} />
+                                            ))
+                                        }
+                                    </List>
+                                ) : (
+                                        <h4>Loading</h4>
+                                    )
+                            }
+                        </Paper>
+                    </Grid>
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                    <Paper className={classes.paper}>
+                        {
+                            this.props.facilitiesIsFetched ? (
+                                <List className={classes.root}>
+                                    {
+                                        this.props.facilities.map((facility, i) => (
+                                            <OrgUnitItem key={i} orgUnit={facility} />
+                                        ))
+                                    }
+                                </List>
+                            ) : (
+                                    <h4>Loading</h4>
+                                )
+                        }
+                    </Paper>
+                </Grid>
+            </Grid>
         )
     }
 }
@@ -70,19 +113,26 @@ FacilitiesPage.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        facilitiesIsFetched: facilitySelectors.getFacilitiesFetchStatus(state),
-        facilities: facilitySelectors.getFacilities(state),
-        mflFacilitiesIsFetched: facilitySelectors.getMflFacilitiesFetchStatus(state),
-        mflFacilities: facilitySelectors.getMflFacilities(state),
-        // resolvedMflFacilities: facilitySelectors.getResolvedMflFacilities(state),
-        // mflFacilityResolutionIsStarted: facilitySelectors.getMflFacilityResolutionIsStarted(state),
-        // mflFacilityResolutionIsCompleted: facilitySelectors.getMflFacilityResolutionIsCompleted(state)
+        orgUnitsIsFetched: orgUnitSelectors.getorgUnitsFetchStatus(state),
+        orgUnits: orgUnitSelectors.getOrgUnits(state),
+
+        countiesIsFetched: orgUnitSelectors.getCountyFetchStatus(state),
+        counties: orgUnitSelectors.getCounties(state),
+
+        constituenciesIsFetched: orgUnitSelectors.getConstituencyFetchStatus(state),
+        constituencies: orgUnitSelectors.getConstituencies(state),
+
+        wardsIsFetched: orgUnitSelectors.getWardsFetchedStatus(state),
+        wards: orgUnitSelectors.getWards(state),
+
+        facilitiesIsFetched: orgUnitSelectors.getFacilityFetchStatus(state),
+        facilities: orgUnitSelectors.getFacilities(state)
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        facilityActions: bindActionCreators(facilityActions, dispatch)
+        orgUnitActions: bindActionCreators(orgUnitActions, dispatch)
     }
 }
 const FaciliyPageConnect = connect(mapStateToProps, mapDispatchToProps)(FacilitiesPage)
