@@ -38,6 +38,11 @@ class LoginPage extends Component {
         gutter: '16',
     }
 
+    componentDidMount(){
+        this.props.authenticationActions.mflApiAuth()
+    }
+    
+
     handleChange = key => (event, value) => {
         this.setState({
             [key]: value,
@@ -47,6 +52,17 @@ class LoginPage extends Component {
     render() {
         const classes = this.props.classes
         const { align, direction, justify } = this.state
+
+        const handleSubmit = (event) => {
+            event.preventDefault()
+            window.location = "/facilities"
+        }
+
+        const handleSubmitResolve = (event) => {
+            event.preventDefault()
+            window.location = "/resolution"
+        }
+
         return (
             <Grid container className={classes.root}>
                 <Grid item xs={12} >
@@ -59,13 +75,16 @@ class LoginPage extends Component {
 
                         <Grid item sm={4} md={3}>
                             <Card className={classes.paper}>
-                                <LoginForm
-                                    submitAction={this.props.authenticationActions.logIn}/>
+                                <Button onClick={handleSubmit.bind(this)}>Load facilities from MFL</Button>
+                            </Card>
+                        </Grid>
+                        <Grid item sm={4} md={3}>
+                            <Card className={classes.paper}>
+                                <Button onClick={handleSubmitResolve.bind(this)}>Resolve facilities in DHIS2, referencing facilities from MFL</Button>
                             </Card>
                         </Grid>
                     </Grid>
                 </Grid >
-
             </Grid >
         )
     }
@@ -78,6 +97,8 @@ LoginPage.propTypes = {
 const mapStateToProps = (state, ownProps) => {
     return {
         // userInformation : authenticationSelectors.getUserInformation(state)
+        // mflAuthKey: authenticationSelectors.getAuthKey(state),
+        // mflUserInformation: authenticationSelectors.getMflUserInformation(state)
     }
 }
 

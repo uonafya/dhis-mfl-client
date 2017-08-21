@@ -36,7 +36,8 @@ const LoginForm = (props) => {
 
     const handleSubmit = (event) =>{
         event.preventDefault()        
-        props.submitAction(credentials)
+        //props.submitAction(credentials)
+        props.checkMflUserDetails()
     }
     const classes = props.classes
     return (

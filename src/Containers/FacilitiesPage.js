@@ -1,5 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from "redux"
 
 import { withStyles } from 'material-ui/styles'
 import List, { ListItem, ListItemText, ListItemSecondaryAction } from 'material-ui/List'
@@ -8,13 +10,12 @@ import Paper from "material-ui/Paper"
 import Checkbox from 'material-ui/Checkbox';
 import Grid from 'material-ui/Grid';
 import Card from 'material-ui/Card';
-
-import { connect } from 'react-redux'
-import { bindActionCreators } from "redux"
+import { CircularProgress } from 'material-ui/Progress';
 
 import * as orgUnitActions from "../Store/OrgUnits/actions"
 import * as orgUnitSelectors from "../Store/OrgUnits/selectors"
 import { orgLevels } from "../Store/OrgUnits/actions"
+import FacilityDetailsCard from "../Components/FacilityDetailsCard"
 
 import OrgUnitItem from "../Components/OrgUnitItem"
 import OrgUnitForm from "../Components/OrgUnitForm"
@@ -22,28 +23,32 @@ import WardItem from "../Components/WardItem"
 
 const styles = theme => ({
     root: {
-      flexGrow: 1,
+        flexGrow: 1,
     },
     demo: {
-      height: 240,
+        height: 240,
     },
     paper: {
-      padding: theme.spacing.unit * 2,
-      height: '100%',
+        padding: theme.spacing.unit * 2,
+        height: '100%',
     },
     control: {
-      padding: theme.spacing.unit * 2,
+        padding: theme.spacing.unit * 2,
     },
-  })
-  
+    progress: {
+        margin: `0 ${theme.spacing.unit * 2}px`,
+    },
+})
 class FacilitiesPage extends Component {
 
     componentDidMount() {
         this.props.orgUnitActions.getCounties(orgLevels.counties)
+
     }
 
     render() {
         const classes = this.props.classes
+
         return (
             <Grid container spacing={24}>
                 <Grid item xs={12} sm={4} >
@@ -68,8 +73,8 @@ class FacilitiesPage extends Component {
                                     <List >
                                         {
                                             this.props.wards.map((ward, i) => (
-                                                <WardItem key={i} ward={ward} 
-                                                getFacilities={this.props.orgUnitActions.getFacilities}/>
+                                                <WardItem key={i} ward={ward}
+                                                    getFacilities={this.props.orgUnitActions.getFacilities} />
                                             ))
                                         }
                                     </List>

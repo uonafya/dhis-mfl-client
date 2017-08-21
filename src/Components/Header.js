@@ -19,6 +19,13 @@ const styles = {
   },
 }
 
+const handleLogin = (event) => {
+  event.preventDefault()        
+  //props.submitAction(credentials)
+  //props.checkMflUserDetails()
+  window.location = "/login"
+}
+
 const Header = (props) => {
   const classes = props.classes
   return (
@@ -31,7 +38,7 @@ const Header = (props) => {
           <Typography type="title" color="inherit" className={classes.flex}>
               {props.title}
           </Typography>
-          <Button color="contrast">Login</Button>
+          <Button color="contrast" onClick={handleLogin.bind(this)}>Login</Button>
         </Toolbar>
       </AppBar>
     </div>
