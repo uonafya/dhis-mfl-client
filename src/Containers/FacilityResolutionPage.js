@@ -45,36 +45,36 @@ class FacilityResolutionPage extends Component {
     componentDidMount() {
 
         //this.props.facilityActions.getFacilities()
-        this.props.facilityActions.resolveMflFacility((require("json-loader!../../data/test-data.json")))
-        // this.props.facilityActions.resolveMflFacility(
-        //     [
-        //         {
-        //             "id": "FTVmVryLXiE",
-        //             "dhis2Name": "Kiko",
-        //             "dhis2Code": 23053
-        //         },
-        //         {
-        //             "id": "Smgomyf1mXV",
-        //             "dhis2Name": "Besiobei",
-        //             "dhis2Code": 23007
-        //         },
-        //         {
-        //             "id": "LgEtXZGfmKk",
-        //             "dhis2Name": "Allexa",
-        //             "dhis2Code": 2300
-        //         },
-        //         {
-        //             "id": "Smgomyf1mXV",
-        //             "dhis2Name": "Amani Dispensary",
-        //             "dhis2Code": 23004
-        //         },
-        //         {
-        //             "id": "LgEtXZGfmKk",
-        //             "dhis2Name": "huruma testhuruma test",
-        //             "dhis2Code": 23003
-        //         }
-        //     ]
-        // )
+        //this.props.facilityActions.resolveMflFacility((require("json-loader!../../data/test-data.json")))
+        this.props.facilityActions.resolveMflFacility(
+            [
+                {
+                    "id": "yUUfe6VC8Ra",
+                    "dhis2Name": "lwori",
+                    "dhis2Code": 0
+                },
+                {
+                    "id": "Smgomyf1mXV",
+                    "dhis2Name": "Besiobei",
+                    "dhis2Code": 23007
+                },
+                {
+                    "id": "LgEtXZGfmKk",
+                    "dhis2Name": "Allexa",
+                    "dhis2Code": 2300
+                },
+                {
+                    "id": "Smgomyf1mXV",
+                    "dhis2Name": "Amani Dispensary",
+                    "dhis2Code": 23004
+                },
+                {
+                    "id": "LgEtXZGfmKk",
+                    "dhis2Name": "huruma testhuruma test",
+                    "dhis2Code": 23003
+                }
+            ]
+        )
         //console.log("@Facilities Page:", this.props.mflFacilities, this.props.mflFacilitiesIsFetched)
     }
 
