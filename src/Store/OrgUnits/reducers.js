@@ -23,6 +23,7 @@ const initialState = Immutable({
     mflFacilityResolutionIsStarted: false,
     mflFacilityResolutionStatus: undefined,
     resolvedMflFacilities: undefined,
+    mflFacilityResolutionSummary: undefined,
     mflFacilityResolutionIsCompleted: false
 })
 
@@ -111,7 +112,8 @@ export default function facilityReducer(state = initialState, action = {}) {
             return state.merge({
                 mflFacilityResolutionIsCompleted: true,
                 mflFacilityResolutionIsStarted: false,
-                resolvedMflFacilities: action.resolvedMflFacilities
+                resolvedMflFacilities: action.resolvedMflFacilities,
+                mflFacilityResolutionSummary: action.mflFacilityResolutionSummary
             })
 
         default:

@@ -75,3 +75,7 @@ export function getMflFacilityResolutionIsCompleted(state){
 export function getMflFacilityResolutionStatus(state){
     return state.facilityReducer.mflFacilityResolutionStatus
 }
+
+export function getMflFacilityResolutionSummary(state){
+    return state.facilityReducer.mflFacilityResolutionSummary
+}
