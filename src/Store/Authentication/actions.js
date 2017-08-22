@@ -22,11 +22,22 @@ export function mflApiAuth(){
     return (dispatch, getState) => {
         MFLService.getAccesToken()
             .then(response => {
-                dispatch({
-                    type: types.LOGIN_SUCCESS,
-                    isMflUserAuthenticated: true
-                })
-                sessionStorage.setItem("mflAccessToken", JSON.stringify(response))
+
+                if(response.hasOwnProperty("access_token") && 
+                    response.hasOwnProperty("refresh_token")){
+                        dispatch({
+                            type: types.MFL_LOGIN_SUCCESS,
+                            isMflUserAuthenticated: true
+                        })
+                        //console.log("Auth Success")
+                        sessionStorage.setItem("mflAccessToken", JSON.stringify(response))
+                    }else{
+                        dispatch({
+                            type: types.MFL_LOGIN_ERROR,
+                            isMflUserAuthenticated: false
+                        })
+                    }
+                
             })
             .catch(error => { 
                 throw(error)
@@ -35,10 +46,12 @@ export function mflApiAuth(){
 }
 
 setInterval(() => {
-    MFLService.refreshToken()
+    if(localStorage.hasOwnProperty("mflAccessToken")){
+        MFLService.refreshToken()
         .then(response => {
             sessionStorage.setItem("mflAccessToken", JSON.stringify(response))
         })
+    }
 }, 25000)
 
 export function mflUserDetails(){
