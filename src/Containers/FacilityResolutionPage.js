@@ -50,7 +50,7 @@ class FacilityResolutionPage extends Component {
             [
                 {
                     "id": "yUUfe6VC8Ra",
-                    "dhis2Name": "lwori",
+                    "dhis2Name": "Pharmart chemist ABC Place",
                     "dhis2Code": 0
                 },
                 {
