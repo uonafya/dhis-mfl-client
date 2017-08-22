@@ -27,14 +27,16 @@ export function mflApiAuth(){
                     response.hasOwnProperty("refresh_token")){
                         dispatch({
                             type: types.MFL_LOGIN_SUCCESS,
-                            isMflUserAuthenticated: true
+                            isMflUserAuthenticated: true,
                         })
-                        //console.log("Auth Success")
+                        console.log("Auth Success")
                         sessionStorage.setItem("mflAccessToken", JSON.stringify(response))
                     }else{
                         dispatch({
                             type: types.MFL_LOGIN_ERROR,
-                            isMflUserAuthenticated: false
+                            isMflUserAuthenticated: false,
+                            snackbarMessage: "Error. Failed to authenticate to KMHFL API",
+                            openSnackbar: true
                         })
                     }
                 

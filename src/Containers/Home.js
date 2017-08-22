@@ -2,7 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
 
-import { withStyles } from 'material-ui/styles'
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+
+import Snackbar from "./Snackbar"
 
 import * as authenticationActions from "../Store/Authentication/actions"
 import * as authenticationSelectors from "../Store/Authentication/selectors"
@@ -15,14 +20,32 @@ const styles = theme => ({
 
 class Home extends Component {
 
-    componentDidMount(){
+    componentWillMount(){
         this.props.authenticationActions.mflApiAuth()
     }
+
+    handleChange = (event, index, value) => console.log(index,value);
 
     render(){
         return(
             <div>
-                <h1>Home</h1>
+                <div>
+                {
+                    this.props.isAppAuthenticated ? (
+                        <div>
+                            <DropDownMenu value={1} onChange={this.handleChange}>
+                                <MenuItem value={1} primaryText="Never" />
+                                <MenuItem value={2} primaryText="Every Night" />
+                                <MenuItem value={3} primaryText="Weeknights" />
+                                <MenuItem value={4} primaryText="Weekends" />
+                                <MenuItem value={5} primaryText="Weekly" />
+                            </DropDownMenu>
+                        </div>
+                    ) : (
+                            <Snackbar />
+                        )
+                }
+                </div>
             </div>
         )
     }
@@ -33,6 +56,7 @@ const mapStateToProps = (state, ownProps) => {
         // userInformation : authenticationSelectors.getUserInformation(state)
         // mflAuthKey: authenticationSelectors.getAuthKey(state),
         // mflUserInformation: authenticationSelectors.getMflUserInformation(state)
+        isAppAuthenticated: authenticationSelectors.isAppAuthenticated(state)
     }
 }
 

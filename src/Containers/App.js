@@ -44,20 +44,20 @@ class App extends Component {
 
         const classes = this.props.classes;
         const { value } = this.state;
+        const bull = <span className={classes.bullet} style={{fontSize: "60%"}}>•</span>;
 
         return (
             <div>
                 <AppBar style={{backgroundColor: "#276696"}} position="static">
                     <Toolbar >
                         <Typography type="title" color="inherit" className={classes.flex}>
-                            DHIS2 - MFL Client
+                            dhis<span style={{color: "#7FC9FD"}}>2</span> {bull} kmhfl client
                         </Typography>
                         <BottomNavigation
-                            value={value}
-                            onChange={this.handleChange}
-                            style={{color: "#fff", backgroundColor: "transparent"}}
+                            value={value} onChange={this.handleChange} 
+                            style={{color: "#fff", backgroundColor: "transparent", marginRight: -30}}
                             >
-                            <BottomNavigationButton style={{color: "#fff"}} label="Exit" icon={<CloseIcon />} />
+                            <BottomNavigationButton style={{color: "#fff"}} icon={<CloseIcon />} />
                         </BottomNavigation>
                     </Toolbar>
                 </AppBar> 
