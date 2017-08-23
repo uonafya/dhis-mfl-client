@@ -63,7 +63,7 @@ export default class Dhis2Service {
 
 
     static getOrgUnitChildren(orgUnitId) {
-        const url = this.host.concat('organisationUnits/' + orgUnitId + '?fields=children[id,name]&paging=true&page=1')
+        const url = this.host.concat('organisationUnits/' + orgUnitId + '?fields=children[id,name,code]&paging=true&page=1')
         const request = {
             method: "GET",
             headers: {
