@@ -54,6 +54,8 @@ export function getFacilities(wardId, pageNumber = 1) {
                     type: types.FACILITIES_RECEIVED,
                     facilities: wardFacilities.children
                 })
+
+                dispatch( resolveMflFacility(wardFacilities.children))
             })
             .catch(error => {
                 throw (error)
@@ -181,8 +183,8 @@ export function resolveMflFacility(orgUnitsMeta){
     })
 
     var orgUnitsMetaIterratorCursorPos = parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))
-    var dhis2FacilityName = orgUnitsMeta[orgUnitsMetaIterratorCursorPos].dhis2Name
-    var dhis2FacilityCode = orgUnitsMeta[orgUnitsMetaIterratorCursorPos].dhis2Code    
+    var dhis2FacilityName = orgUnitsMeta[orgUnitsMetaIterratorCursorPos].name
+    var dhis2FacilityCode = orgUnitsMeta[orgUnitsMetaIterratorCursorPos].code    
 
     var orgUnitMeta = {
         type: "getByNameAndCode",
