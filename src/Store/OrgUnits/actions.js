@@ -214,11 +214,11 @@ export function resolveMflFacility(orgUnitsMeta){
                                     if(response.count === 1){
 
                                         incrementResolvedItem("resolvedCodes")
-                                        updateResolutionResults(0,1)
+                                        updateResolutionResults(0,1,response)
                                         prepareForDispatch()
 
                                     }else{
-                                        updateResolutionResults(0,0)
+                                        updateResolutionResults(0,0,response)
                                         prepareForDispatch()
                                     }
                                 })
@@ -229,11 +229,11 @@ export function resolveMflFacility(orgUnitsMeta){
                         }else if(response.count === 1){
 
                             incrementResolvedItem("resolvedNames")
-                            updateResolutionResults(1,0)
+                            updateResolutionResults(1,0,response)
                             prepareForDispatch()
                             
                         }else{
-                            updateResolutionResults(0,0)
+                            updateResolutionResults(0,0,response)
                             prepareForDispatch()
                         }
                     })
@@ -245,11 +245,11 @@ export function resolveMflFacility(orgUnitsMeta){
             }else if(response.count === 1){    
 
                 incrementResolvedItem("resolvedNamesAndCodes")
-                updateResolutionResults(1,1)
+                updateResolutionResults(1,1,response)
                 prepareForDispatch()
 
             }else{
-                updateResolutionResults(0,0)
+                updateResolutionResults(0,0,response)
                 prepareForDispatch()
             }
         })
@@ -272,7 +272,7 @@ var clearLocalStorage = () => {
     localStorage.setItem('mflAccessToken',accessToken);
 }
 
-var updateResolutionResults = (n,c) => {
+var updateResolutionResults = (n,c,r) => {
     var oldObj = getObject("resolutionResults")
     var update = {
                     "id": getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].id,
@@ -280,14 +280,14 @@ var updateResolutionResults = (n,c) => {
                         "didResolve": n,
                         "meta": {
                             "dhis2Name": getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].dhis2Name,
-                            "mflName": "Not Resolved"
+                            "mflName": (n > 0 ? r.results[0].name:"Not Resolved")
                         }
                     },
                     "code": {
                         "didResolve": c,
                         "meta": {
                             "dhis2Code": getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].dhis2Code,
-                            "mflCode": "Not Resolved"
+                            "mflCode": (c > 0 ? r.results[0].code:"Not Resolved")
                         }
                     }
                 }

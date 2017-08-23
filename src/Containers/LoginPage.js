@@ -38,9 +38,9 @@ class LoginPage extends Component {
         gutter: '16',
     }
 
-    componentDidMount(){
-        this.props.authenticationActions.mflApiAuth()
-    }
+    // componentDidMount(){
+    //     this.props.authenticationActions.mflApiAuth()
+    // }
     
 
     handleChange = key => (event, value) => {

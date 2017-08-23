@@ -44,7 +44,6 @@ export default function facilityReducer(state = initialState, action = {}) {
                 orgUnitsIsFetched: true
             })
 
-
         case types.COUNTIES_REQUESTED:
             return state
 
@@ -86,7 +85,6 @@ export default function facilityReducer(state = initialState, action = {}) {
                 facilities: action.facilities,
                 facilitiesIsFetched: true
             })
-
 
         case types.MFL_FACILITIES_REQUESTED:
             return state
