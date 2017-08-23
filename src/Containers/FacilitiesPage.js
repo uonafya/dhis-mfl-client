@@ -88,6 +88,15 @@ class FacilitiesPage extends Component {
                 <Grid item xs={12} sm={8}>
                     <Paper className={classes.paper}>
                         {
+                            this.props.facilityResolutionIsCompleted ? (
+                                <div>
+                                    <h4>resolved: {this.props.mflFacilityResolutionSummary.total}</h4>
+                                </div>
+                            ) : (
+                                    <h4>waiting resolution</h4>
+                                )
+                        }
+                        {
                             this.props.facilitiesIsFetched ? (
                                 <List className={classes.root}>
                                     {
@@ -126,7 +135,10 @@ const mapStateToProps = (state, ownProps) => {
         wards: orgUnitSelectors.getWards(state),
 
         facilitiesIsFetched: orgUnitSelectors.getFacilityFetchStatus(state),
-        facilities: orgUnitSelectors.getFacilities(state)
+        facilities: orgUnitSelectors.getFacilities(state),
+
+        facilityResolutionIsCompleted: orgUnitSelectors.getMflFacilityResolutionIsCompleted(state),
+        mflFacilityResolutionSummary: orgUnitSelectors.getMflFacilityResolutionSummary(state)
     }
 }
 
