@@ -55,7 +55,7 @@ class App extends Component {
             <div>
                 <AppBar style={{backgroundColor: "#276696"}} position="static">
                     <Toolbar >
-                        <Typography type="title" color="inherit" className={classes.flex} onClick={this.handleClick}>
+                        <Typography type="title" color="inherit" style={{cursor: "pointer"}} className={classes.flex} onClick={this.handleClick}>
                             dhis<span style={{color: "#7FC9FD"}}>2</span> {bull} kmhfl client
                         </Typography>
                         <BottomNavigation
