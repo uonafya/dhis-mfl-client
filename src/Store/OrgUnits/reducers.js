@@ -24,13 +24,18 @@ const initialState = Immutable({
     mflFacilityResolutionStatus: undefined,
     resolvedMflFacilities: undefined,
     mflFacilityResolutionSummary: undefined,
-    mflFacilityResolutionIsCompleted: false
+    mflFacilityResolutionIsCompleted: false,
+
+    orgUnitLevelFetched: 0,
+    orgUnitSelected: undefined
 })
 
 export default function facilityReducer(state = initialState, action = {}) {
     switch (action.type) {
         case types.ORGUNIT_REQUESTED:
-            return state
+            return state.merge({
+                orgUnitSelected: action.orgUnit
+            })
 
         case types.ORGUNIT_RECEIVED:
             return state.merge({
@@ -50,7 +55,8 @@ export default function facilityReducer(state = initialState, action = {}) {
         case types.ADD_COUNTIES:
             return state.merge({
                 counties: [...state.counties, ...action.counties],
-                countiesIsFetched: true
+                countiesIsFetched: true,
+                orgUnitLevelFetched: 2
             })
 
         case types.CONSTITUENCIES_REQUESTED:
@@ -59,7 +65,8 @@ export default function facilityReducer(state = initialState, action = {}) {
         case types.CONSTITUENCIES_RECEIVED:
             return state.merge({
                 constituencies: action.constituencies,
-                constituenciesIsFetched: true
+                constituenciesIsFetched: true,
+                orgUnitLevelFetched: 3
             })
 
         case types.WARDS_REQUESTED:
@@ -68,13 +75,15 @@ export default function facilityReducer(state = initialState, action = {}) {
         case types.WARDS_RECEIVED:
             return state.merge({
                 wards: action.wards,
-                wardsIsFetched: true
+                wardsIsFetched: true,
+                orgUnitLevelFetched: 4
             })
 
         case types.ADD_FACILITIES:
             return state.merge({
                 facilities: [...state.facilities, ...action.facilities],
-                facilitiesIsFetched: true
+                facilitiesIsFetched: true,
+                orgUnitLevelFetched: 5
             })
 
         case types.FACILITIES_REQUESTED:
@@ -83,7 +92,8 @@ export default function facilityReducer(state = initialState, action = {}) {
         case types.FACILITIES_RECEIVED:
             return state.merge({
                 facilities: action.facilities,
-                facilitiesIsFetched: true
+                facilitiesIsFetched: true,
+                orgUnitLevelFetched: 5
             })
 
         case types.MFL_FACILITIES_REQUESTED:
@@ -112,6 +122,11 @@ export default function facilityReducer(state = initialState, action = {}) {
                 mflFacilityResolutionIsStarted: false,
                 resolvedMflFacilities: action.resolvedMflFacilities,
                 mflFacilityResolutionSummary: action.mflFacilityResolutionSummary
+            })
+
+        case types.RESET_ORGUNIT_TYPE_RETRIEVED:
+            return state.merge({
+                orgUnitLevelFetched: 0
             })
 
         default:

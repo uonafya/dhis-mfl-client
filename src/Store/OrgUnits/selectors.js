@@ -79,3 +79,11 @@ export function getMflFacilityResolutionStatus(state){
 export function getMflFacilityResolutionSummary(state){
     return state.facilityReducer.mflFacilityResolutionSummary
 }
+
+export function getOrgUnitLevelFetched(state){
+    return state.facilityReducer.orgUnitLevelFetched
+}
+
+export function getOrgUnitSelected(state){
+    return state.facilityReducer.orgUnitSelected
+}

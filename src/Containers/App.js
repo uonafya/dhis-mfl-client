@@ -40,6 +40,11 @@ class App extends Component {
         window.location = "http://test.hiskenya.org/"
       }
 
+      handleClick = (event) => {
+          event.preventDefault()
+          window.location = "/"
+      }
+
     render() {
 
         const classes = this.props.classes;
@@ -50,7 +55,7 @@ class App extends Component {
             <div>
                 <AppBar style={{backgroundColor: "#276696"}} position="static">
                     <Toolbar >
-                        <Typography type="title" color="inherit" className={classes.flex}>
+                        <Typography type="title" color="inherit" className={classes.flex} onClick={this.handleClick}>
                             dhis<span style={{color: "#7FC9FD"}}>2</span> {bull} kmhfl client
                         </Typography>
                         <BottomNavigation

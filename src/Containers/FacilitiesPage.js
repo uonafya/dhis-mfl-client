@@ -90,7 +90,7 @@ class FacilitiesPage extends Component {
                         {
                             this.props.facilityResolutionIsCompleted ? (
                                 <div>
-                                    <h4>resolved: {this.props.mflFacilityResolutionSummary.total}</h4>
+                                    <h4>resolved: {this.props.mflFacilityResolutionSummary.resolvedNamesAndCodes}</h4>
                                 </div>
                             ) : (
                                     <h4>waiting resolution</h4>

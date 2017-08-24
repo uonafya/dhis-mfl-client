@@ -20,11 +20,15 @@ import * as facilitySelectors from "../Store/OrgUnits/selectors"
 
 
 const styles = theme => ({
-    root: {
-        width: '100%',
-        maxWidth: '360px',
-        background: theme.palette.background.paper
-    },
+    root1: {
+        flexGrow: 1,
+        margin: "30px auto auto auto",
+        maxWidth: 1200
+      },
+    root2: {
+        margin: "50px auto auto auto",
+        maxWidth: 650
+      },
     root: theme.mixins.gutters({
         paddingTop: 16,
         paddingBottom: 16,
@@ -39,43 +43,14 @@ const styles = theme => ({
       },
 })
 
-
 class FacilityResolutionPage extends Component {
 
     componentDidMount() {
-
-        //this.props.facilityActions.getFacilities()
-        //this.props.facilityActions.resolveMflFacility((require("json-loader!../../data/test-data.json")))
-        this.props.facilityActions.resolveMflFacility(
-            [
-                {
-                    "id": "yUUfe6VC8Ra",
-                    "dhis2Name": "Pharmart chemist ABC Place",
-                    "dhis2Code": 0
-                },
-                {
-                    "id": "Smgomyf1mXV",
-                    "dhis2Name": "Besiobei",
-                    "dhis2Code": 23007
-                },
-                {
-                    "id": "LgEtXZGfmKk",
-                    "dhis2Name": "Allexa",
-                    "dhis2Code": 2300
-                },
-                {
-                    "id": "Smgomyf1mXV",
-                    "dhis2Name": "Amani Dispensary",
-                    "dhis2Code": 23004
-                },
-                {
-                    "id": "LgEtXZGfmKk",
-                    "dhis2Name": "huruma testhuruma test",
-                    "dhis2Code": 23003
-                }
-            ]
-        )
-        //console.log("@Facilities Page:", this.props.mflFacilities, this.props.mflFacilitiesIsFetched)
+        console.log("@CDM", this.props.facilitiesIsFetched)
+        if(this.props.facilitiesIsFetched){
+            this.props.facilityActions.resolveMflFacility(this.props.facilities)
+            console.log(this.props.facilities)
+        }
     }
 
     render() {
@@ -83,9 +58,9 @@ class FacilityResolutionPage extends Component {
         const bull = <span className={classes.bullet}>•</span>;
 
         return (
-            <div style={{fontFamily: "Arial"}}>
-                <h1 style={{textAlign: "center"}}>Resolving DHIS2-MFL Facilities</h1>
-                <div style={{textAlign: "center", marginLeft: "20%", marginRight: "20%"}}>
+            <div style={{fontFamily: "Arial"}} className={classes.root1}>
+                <h1 style={{textAlign: "center"}}>Resolution Report</h1>
+                <div >
                     {this.props.mflFacilityResolutionIsCompleted ? (
                         <Paper className={classes.root} elevation={4} style={{textAlign: "left"}}>
                             <br />
@@ -130,7 +105,7 @@ class FacilityResolutionPage extends Component {
                     this.props.mflFacilityResolutionIsCompleted ? (
                         
                         this.props.resolvedMflFacilities.map((facilityMeta, i) => (
-                                <div key={i} style={{margin: "50px", marginRight: "35%"}} >
+                                <div key={i} className={classes.root2} >
                                     <FacilityResolutionDetailsCard facilityMeta={facilityMeta} />
                                 </div>
                             )
@@ -164,8 +139,8 @@ FacilityResolutionPage.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        // facilitiesIsFetched: facilitySelectors.getFacilitiesFetchStatus(state),
-        // facilities: facilitySelectors.getFacilities(state),
+        facilitiesIsFetched: facilitySelectors.getFacilityFetchStatus(state),
+        facilities: facilitySelectors.getFacilities(state),
         // mflFacilitiesIsFetched: facilitySelectors.getMflFacilitiesFetchStatus(state),
         // mflFacilities: facilitySelectors.getMflFacilities(state),
         resolvedMflFacilities: facilitySelectors.getResolvedMflFacilities(state),

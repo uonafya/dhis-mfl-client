@@ -1,81 +1,131 @@
 import React from 'react'
-import { Button, FormControl, TextField, FormGroup } from "material-ui"
+import Typography from 'material-ui/Typography'
 import { withStyles } from "material-ui"
 
 const styles = theme => ({
     root: {
         flexGrow: 1,
+        margin: "30px auto auto auto",
+        maxWidth: 1200
+      },
+    card: {
+      minWidth: 275,
     },
-    demo: {
-        height: 240,
+    title: {
+      marginBottom: 16,
+      fontSize: 14,
+      color: theme.palette.text.secondary,
     },
-    paper: {
-        padding: theme.spacing.unit * 2,
-        height: '100%',
+    pos: {
+      marginBottom: 12,
+      color: theme.palette.text.secondary,
     },
-    control: {
-        padding: theme.spacing.unit * 2,
+    elonSelect: {
+        width: "70%",
+        height: 50,
+        fontSize: "120%",
+        border: "none",
+        borderBottom: "solid 1px",
+        outline: 0,
+        marginBottom: 50
     },
 })
 
 
 export const OrgUnitForm = (props) => {
     const handleCountyChanged = (event) => {
+        props.resetOrgUnitTypeFetched()
+        props.getOrgUnit(event.target.value)
         props.getConstituencies(event.target.value)
     }
 
     const handleConstituencyChanged = (event) => {
+        props.resetOrgUnitTypeFetched()
+        props.getOrgUnit(event.target.value)
         props.getWards(event.target.value)
+    }
+
+    const handleWardChanged = (event) => {
+        //window.location = "/resolution"
+        props.resetOrgUnitTypeFetched()
+        props.getOrgUnit(event.target.value)
+        props.getFacilities(event.target.value)
     }
 
     const classes = props.classes
     return (
 
-        <FormControl
-            fullWidth={true}
-        >
-            <FormGroup>
-
-                <select
-                    id="county"
-                    label="county"
-                    className={classes.textField}
-                    onChange={handleCountyChanged.bind(this)}
-                    placeholder='select a county'>
-                    {
-                        props.counties.map((county, i) => (
-                            <option
-                                key={i}
-                                value={county.id}>
-                                {county.name}
-                            </option>
-                        ))
-                    }
-                </select>
+        <div>
+            <Typography type="body1" className={classes.title}>
+                Select County
+            </Typography>
+            <select
+                id="county"
+                label="county"
+                className={classes.elonSelect} 
+                style={{borderColor: "#8c8888"}} 
+                onChange={handleCountyChanged.bind(this)}
+                placeholder='select a county'>
+                { props.countiesIsFetched ? (<option defaultValue>No Selection Made</option>):("")}
+                {
+                    props.counties.map((county, i) => (
+                        <option
+                            key={i}
+                            value={county.id}>
+                            {county.name}
+                        </option>
+                    ))
+                }
+            </select>
+            <Typography type="body1" className={classes.title}>
+                Select Sub-County
+            </Typography>
+            <select
+                id="password"
+                label="password"
+                className={classes.elonSelect} 
+                style={{borderColor: "#8c8888"}} 
+                onChange={handleConstituencyChanged.bind(this)}>
+                { props.constituenciesIsFetched ? (<option defaultValue>No Selection Made</option>):("")}
                 {
                     props.constituenciesIsFetched ? (
-                        <select
-                            id="password"
-                            label="password"
-                            className={classes.textField}
-                            onChange={handleConstituencyChanged.bind(this)}>
-                            {
-                                props.constituencies.map((constituency, i) =>(
-                                    <option
-                                        key={i}
-                                        value={constituency.id}>
-                                        {constituency.name}
-                                    </option>
-                                ))
-                            }
-                        </select>
+                        
+                        props.constituencies.map((constituency, i) =>(
+                            <option
+                                key={i}
+                                value={constituency.id}>
+                                {constituency.name}
+                            </option>
+                        ))
 
-                    ) : (
-                        <h4>Loading</h4>
-                    )
+                    ):(<option defaultValue>No Data Loaded</option>)
                 }
-            </FormGroup>
-        </FormControl >
+            </select>
+            <Typography type="body1" className={classes.title}>
+                Select Ward
+            </Typography>
+            <select
+                id="password"
+                label="password"
+                className={classes.elonSelect} 
+                style={{borderColor: "#8c8888"}} 
+                onChange={handleWardChanged.bind(this)}>
+                { props.wardsIsFetched ? (<option defaultValue>No Selection Made</option>):("")}
+                {
+                    props.wardsIsFetched? (
+                                                
+                        props.wards.map((ward, i) =>(
+                            <option
+                                key={i}
+                                value={ward.id}>
+                                {ward.name}
+                            </option>
+                        ))
+
+                    ):(<option defaultValue>No Data Loaded</option>)
+                }
+            </select>
+        </div >
     )
 }
 

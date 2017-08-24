@@ -43,6 +43,22 @@ export function addOrgUnits(orgUnits) {
     }
 }
 
+export function getOrgUnit(id) {
+    return function (dispatch, getState) {
+        Dhis2Service.getOrgUnit(id)
+            .then(orgUnit => {
+                console.log("@GET ORG UNIT", orgUnit)
+                dispatch({
+                    type: types.ORGUNIT_REQUESTED,
+                    orgUnit: orgUnit
+                })
+            })
+            .catch(error =>{
+                throw(error)
+            })
+    }
+}
+
 
 export function getFacilities(wardId, pageNumber = 1) {
     return function (dispatch, getState) {
@@ -54,8 +70,9 @@ export function getFacilities(wardId, pageNumber = 1) {
                     type: types.FACILITIES_RECEIVED,
                     facilities: wardFacilities.children
                 })
-
-                dispatch( resolveMflFacility(wardFacilities.children))
+                console.log("@Get Facilities", wardFacilities)
+                //resolveMflFacility(wardFacilities.children)
+                
             })
             .catch(error => {
                 throw (error)
@@ -77,6 +94,7 @@ export function getCounties(pageNumber = 1) {
         dispatch({ type: types.COUNTIES_REQUESTED })
         Dhis2Service.getOrgUnits(2, pageNumber)
             .then(orgUnits => {
+                console.log(orgUnits)
                 //check if page end of page                
                 if (orgUnits.pager.page < orgUnits.pager.pageCount) {
                     dispatch(addCounties(orgUnits.organisationUnits))
@@ -125,12 +143,21 @@ export function getWards(constituencyId) {
     return function (dispatch, getState) {
         Dhis2Service.getOrgUnitChildren(constituencyId)
             .then(constituencyWards => {
+                console.log("@Get Wards", constituencyWards)
                 dispatch({
                     type: types.WARDS_RECEIVED,
                     wards: constituencyWards.children
                 })
             })
             .catch(error => { })
+    }
+}
+
+export function resetOrgUnitTypeFetched(){
+    return function (dispatch, getState){
+        dispatch({
+            type: types.RESET_ORGUNIT_TYPE_RETRIEVED
+        })
     }
 }
 
@@ -172,6 +199,9 @@ export function resolveMflFacility(orgUnitsMeta){
         localStorage.setItem("resolvedCodes", 0)
         localStorage.setItem("orgUnitsMetaIterratorCursorPos", 0)
         localStorage.setItem("initialEntry", 1)
+        store.dispatch({
+            type: types.MFL_FACILITY_RESOLUTION_STARTED,
+        })
     }
 
     store.dispatch({
@@ -273,6 +303,11 @@ var clearLocalStorage = () => {
     localStorage.clear();
     localStorage.setItem('mflAccessToken',accessToken);
 }
+export function _clearLocalStorage(){
+    var accessToken = localStorage.getItem('mflAccessToken');
+    localStorage.clear();
+    localStorage.setItem('mflAccessToken',accessToken);
+}
 
 var updateResolutionResults = (n,c,r) => {
     var oldObj = getObject("resolutionResults")
@@ -281,15 +316,15 @@ var updateResolutionResults = (n,c,r) => {
                     "name":{
                         "didResolve": n,
                         "meta": {
-                            "dhis2Name": getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].dhis2Name,
-                            "mflName": (n > 0 ? r.results[0].name:"Not Resolved")
+                            "dhis2Name": getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].name,
+                            "mflName": (n > 0 || c > 0 ? r.results[0].name:"Not Resolved")
                         }
                     },
                     "code": {
                         "didResolve": c,
                         "meta": {
-                            "dhis2Code": getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].dhis2Code,
-                            "mflCode": (c > 0 ? r.results[0].code:"Not Resolved")
+                            "dhis2Code": getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].code,
+                            "mflCode": (c > 0 || n > 0? r.results[0].code:"Not Resolved")
                         }
                     }
                 }
