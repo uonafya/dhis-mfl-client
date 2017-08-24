@@ -9,6 +9,7 @@ import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
+import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
@@ -26,8 +27,7 @@ const styles = theme => ({
         maxWidth: 1200
       },
     root2: {
-        margin: "50px auto auto auto",
-        maxWidth: 650
+        margin: "auto auto 20px auto",
       },
     root: theme.mixins.gutters({
         paddingTop: 16,
@@ -56,38 +56,60 @@ class FacilityResolutionPage extends Component {
     render() {
         const classes = this.props.classes
         const bull = <span className={classes.bullet}>•</span>;
+        const colorRed = "#C62828"
+        const colorGreen = "#2E7D32"
+        const colorAmber = "#EF6C00"
 
         return (
             <div style={{fontFamily: "Arial"}} className={classes.root1}>
-                <h1 style={{textAlign: "center"}}>Resolution Report</h1>
-                <div >
+                <Typography type="display3" style={{textAlign: "center"}} gutterBottom>
+                    {this.props.orgUnitSelected.name} Resolution Report
+                </Typography>
+                <Grid container spacing={40}>
+                     <Grid item xs={12} sm={5}>
                     {this.props.mflFacilityResolutionIsCompleted ? (
                         <Paper className={classes.root} elevation={4} style={{textAlign: "left"}}>
-                            <br />
-                            <Typography type="headline" gutterBottom>
+                            <Typography type="headline"gutterBottom>
                                 Facility Resolution Summary
                             </Typography>
-                            <Typography type="body2" gutterBottom>
-                                Resolved via Name &amp; Code:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.resolvedNamesAndCodes}
-                            </Typography>
-                            <Typography type="body2" gutterBottom>
-                                Resolved via Name:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.resolvedNames}
-                            </Typography>
-                            <Typography type="body2" gutterBottom>
-                                Resolved via Code:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.resolvedCodes}
-                            </Typography>
+                            <Table>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>
+                                            Name:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.resolvedNames}
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>
+                                            Code:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.resolvedCodes}
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>
+                                            Name &amp; Code:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.resolvedNamesAndCodes}
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell style={{color: colorGreen}}>
+                                            Total Resolved:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.resolvedNamesAndCodes+
+                                                                this.props.mflFacilityResolutionSummary.resolvedNames+
+                                                                this.props.mflFacilityResolutionSummary.resolvedCodes}
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell style={{color: colorRed}}>
+                                            Total Unresolved:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.total - (
+                                                this.props.mflFacilityResolutionSummary.resolvedNamesAndCodes+
+                                                                    this.props.mflFacilityResolutionSummary.resolvedNames+
+                                                                    this.props.mflFacilityResolutionSummary.resolvedCodes)}
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
                             <br />
-                            <Typography type="body1" className={classes.title}>
-                            Total Resolved:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.resolvedNamesAndCodes+
-                                                        this.props.mflFacilityResolutionSummary.resolvedNames+
-                                                        this.props.mflFacilityResolutionSummary.resolvedCodes}
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{bull}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            Total Unresolved:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.total - (
-                                this.props.mflFacilityResolutionSummary.resolvedNamesAndCodes+
-                                                        this.props.mflFacilityResolutionSummary.resolvedNames+
-                                                        this.props.mflFacilityResolutionSummary.resolvedCodes
-                            )}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{bull}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            TOTAL:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.total}
+                            <br />
+                            <Typography type="headline"gutterBottom>
+                                TOTAL:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.total}
                             </Typography>
                         </Paper>
                     ) : (
@@ -100,7 +122,8 @@ class FacilityResolutionPage extends Component {
                             </Typography>
                         </Paper>
                     )}
-                </div>
+                </Grid>
+                <Grid item xs={12} sm={7}> 
                 {
                     this.props.mflFacilityResolutionIsCompleted ? (
                         
@@ -112,7 +135,7 @@ class FacilityResolutionPage extends Component {
                         )
                         
                         ) : (
-                            <div style={{marginTop: "10%", textAlign: "center"}}>
+                            <div style={{textAlign: "center"}}>
                                 <CircularProgress className={classes.progress} size={50} />
                                 <br />
                                 {
@@ -128,6 +151,8 @@ class FacilityResolutionPage extends Component {
                             </div>
                         )
                 }
+                </Grid>
+                </Grid>
             </div>
         )
     }
@@ -147,7 +172,8 @@ const mapStateToProps = (state, ownProps) => {
         mflFacilityResolutionIsStarted: facilitySelectors.getMflFacilityResolutionIsStarted(state),
         mflFacilityResolutionIsCompleted: facilitySelectors.getMflFacilityResolutionIsCompleted(state),
         mflFacilityResolutionStatus: facilitySelectors.getMflFacilityResolutionStatus(state),
-        mflFacilityResolutionSummary: facilitySelectors.getMflFacilityResolutionSummary(state)
+        mflFacilityResolutionSummary: facilitySelectors.getMflFacilityResolutionSummary(state),
+        orgUnitSelected: facilitySelectors.getOrgUnitSelected(state)
     }
 }
 

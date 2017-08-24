@@ -78,17 +78,23 @@ class Home extends Component {
         var loader;
 
         if(this.props.orgUnitLevelFetched===2){
+            console.log("@ 2")
             loader = <OrgUnitHighlights init={this.props.countiesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} />
         }else if(this.props.orgUnitLevelFetched===3){
+            console.log("@ 3")
             loader = <OrgUnitHighlights init={false} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} />
         }else if(this.props.orgUnitLevelFetched===4){
+            console.log("@ 4")
             loader = <OrgUnitHighlights init={false} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} />
         }else if(this.props.orgUnitLevelFetched===5){
+            console.log("@ 5")
             loader = <OrgUnitHighlights init={false} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} />
         }else{
             if(this.props.countiesIsFetched){
-                loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} init={true} />
+                console.log("@ else 1")
+                loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} />
             }else{
+                console.log("@ else 2")
                 loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} />
             }
         }
@@ -113,6 +119,9 @@ class Home extends Component {
                                     <Grid item xs={12} sm={6}>
                                         <Card className={classes.card}>
                                             <CardContent>
+                                                <Typography type="body1" className={classes.title}>
+                                                    Organization Unit Selection
+                                                </Typography>
                                                 {
                                                     this.props.countiesIsFetched ? (
                                                         <OrgUnitForm

@@ -5,6 +5,10 @@ import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 
+import WarningIcon from 'material-ui-icons/Warning';
+import DoneIcon from 'material-ui-icons/Done';
+import InfoIcon from 'material-ui-icons/InfoOutline';
+
 const styles = theme => ({
   card: {
     minWidth: 275,
@@ -28,51 +32,58 @@ const styles = theme => ({
 function FacilityResolutionDetailsCard(props) {
   const classes = props.classes;
   const bull = <span className={classes.bullet}>•</span>;
+  const colorRed = "#C62828"
+  const colorGreen = "#2E7D32"
+  const colorAmber = "#EF6C00"
+
+  var nameStatusColor = {color: colorRed}
+  var codeStatusColor = {color: colorRed}
+  var resolutionStatusColor = <InfoIcon style={{color: colorAmber}} />
+
+  if(props.facilityMeta.name.didResolve){nameStatusColor = {color: colorGreen}}
+  if(props.facilityMeta.code.didResolve){codeStatusColor = {color: colorGreen}}
+
+  if(props.facilityMeta.name.didResolve
+     && props.facilityMeta.code.didResolve)
+     {
+       resolutionStatusColor = <DoneIcon style={{color: colorGreen}} />
+     }else if(!props.facilityMeta.name.didResolve
+      && !props.facilityMeta.code.didResolve){
+        resolutionStatusColor = <WarningIcon style={{color: colorRed}} />
+      }
 
   //console.log(props.facilityMeta.name.didResolve)
 
   return (
     <div>
       <Card className={classes.card}>
-        <CardContent>
-          <Typography type="body1" className={classes.title}>
-            {props.facilityMeta.id}
+        <CardContent>          
+          <Typography type="headline" component="h2">
+            {props.facilityMeta.name.meta.dhis2Name} {resolutionStatusColor}
           </Typography>
-          
-            {
-              (props.facilityMeta.name.didResolve && props.facilityMeta.code.didResolve) ? (
-                <Typography type="headline" component="h2">
-                  {props.facilityMeta.name.meta.dhis2Name} {bull} Resolved :)
-                </Typography>
-              ) : (
-                <Typography type="headline" component="h2">
-                  {props.facilityMeta.name.meta.dhis2Name} {bull} Unresolved :(
-                </Typography>
-              )
-            }
           {
             <div>
               <br />
               <Typography type="body1" className={classes.title}>
                 Name
               </Typography>
-              <Typography component="p">
-                MFL: {props.facilityMeta.name.meta.mflName}&nbsp;&nbsp; {bull} &nbsp;&nbsp;
-                DHIS2: {props.facilityMeta.name.meta.dhis2Name}
+              <Typography component="p" style={nameStatusColor}>
+                <b>MFL:</b> {props.facilityMeta.name.meta.mflName}&nbsp;&nbsp;{bull}&nbsp;&nbsp;
+                <b>DHIS2:</b> {props.facilityMeta.name.meta.dhis2Name}
               </Typography>
               <br />
               <Typography type="body1" className={classes.title}>
                 Code
               </Typography>
-              <Typography component="p">
-                MFL: {props.facilityMeta.code.meta.mflCode}&nbsp;&nbsp; {bull} &nbsp;&nbsp;
-                DHIS2: {props.facilityMeta.code.meta.dhis2Code}
+              <Typography component="p" style={codeStatusColor}>
+                <b>MFL:</b> {props.facilityMeta.code.meta.mflCode}&nbsp;&nbsp;{bull}&nbsp;&nbsp;
+                <b>DHIS2:</b> {props.facilityMeta.code.meta.dhis2Code}
               </Typography>
             </div>
           }
         </CardContent>
         <CardActions>
-          <Button dense disabled>Advanced Details</Button>
+          <Button dense >Advanced Details</Button>
         </CardActions>
       </Card>
     </div>
