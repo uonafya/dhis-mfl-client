@@ -47,7 +47,7 @@ export function getOrgUnit(id) {
     return function (dispatch, getState) {
         Dhis2Service.getOrgUnit(id)
             .then(orgUnit => {
-                console.log("@GET ORG UNIT", orgUnit)
+                //console.log("@GET ORG UNIT", orgUnit)
                 dispatch({
                     type: types.ORGUNIT_REQUESTED,
                     orgUnit: orgUnit
@@ -70,7 +70,7 @@ export function getFacilities(wardId, pageNumber = 1) {
                     type: types.FACILITIES_RECEIVED,
                     facilities: wardFacilities.children
                 })
-                console.log("@Get Facilities", wardFacilities)
+                //console.log("@Get Facilities", wardFacilities)
                 //resolveMflFacility(wardFacilities.children)
                 
             })
@@ -94,7 +94,7 @@ export function getCounties(pageNumber = 1) {
         dispatch({ type: types.COUNTIES_REQUESTED })
         Dhis2Service.getOrgUnits(2, pageNumber)
             .then(orgUnits => {
-                console.log(orgUnits)
+                //console.log(orgUnits)
                 //check if page end of page                
                 if (orgUnits.pager.page < orgUnits.pager.pageCount) {
                     dispatch(addCounties(orgUnits.organisationUnits))
@@ -143,7 +143,7 @@ export function getWards(constituencyId) {
     return function (dispatch, getState) {
         Dhis2Service.getOrgUnitChildren(constituencyId)
             .then(constituencyWards => {
-                console.log("@Get Wards", constituencyWards)
+                //console.log("@Get Wards", constituencyWards)
                 dispatch({
                     type: types.WARDS_RECEIVED,
                     wards: constituencyWards.children
@@ -190,6 +190,7 @@ export function resolveMflFacility(orgUnitsMeta){
     var initialEntry = parseInt(localStorage.getItem("initialEntry")||0)
 
     if(initialEntry!==1){
+        clearLocalStorage()
         var results = []
         setObject("resolutionResults", results)
         setObject("orgUnitsMetaObjectArray", orgUnitsMeta)
@@ -299,11 +300,6 @@ export function resolveMflFacility(orgUnitsMeta){
 var setObject = (k,v) => {localStorage.setItem(k, JSON.stringify(v))}
 var getObject = (k) => {return JSON.parse(localStorage.getItem(k) || "[]")}
 var clearLocalStorage = () => {
-    var accessToken = localStorage.getItem('mflAccessToken');
-    localStorage.clear();
-    localStorage.setItem('mflAccessToken',accessToken);
-}
-export function _clearLocalStorage(){
     var accessToken = localStorage.getItem('mflAccessToken');
     localStorage.clear();
     localStorage.setItem('mflAccessToken',accessToken);

@@ -68,7 +68,7 @@ class Home extends Component {
         this.props.orgUnitActions.getCounties(orgLevels.counties)
     }
 
-    handleChange = (event, index, value) => console.log(event.target.value);
+    //handleChange = (event, index, value) => console.log(event.target.value)
 
     render(){
 
@@ -78,32 +78,33 @@ class Home extends Component {
         var loader;
 
         if(this.props.orgUnitLevelFetched===2){
-            console.log("@ 2")
+            //console.log("@ 2")
             loader = <OrgUnitHighlights init={this.props.countiesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} />
         }else if(this.props.orgUnitLevelFetched===3){
-            console.log("@ 3")
+            //console.log("@ 3")
             loader = <OrgUnitHighlights init={false} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} />
         }else if(this.props.orgUnitLevelFetched===4){
-            console.log("@ 4")
+            //console.log("@ 4")
             loader = <OrgUnitHighlights init={false} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} />
         }else if(this.props.orgUnitLevelFetched===5){
-            console.log("@ 5")
+            //console.log("@ 5")
             loader = <OrgUnitHighlights init={false} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} />
         }else{
             if(this.props.countiesIsFetched){
-                console.log("@ else 1")
+                //console.log("@ else 1")
                 loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} />
             }else{
-                console.log("@ else 2")
+                //console.log("@ else 2")
                 loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} />
             }
         }
 
         const handleSubmitResolve = (event) => {
             event.preventDefault()
-            store.dispatch(push('/resolution'))
-            this.props.orgUnitActions._clearLocalStorage()
+            
+            //this.props.orgUnitActions._clearLocalStorage()
             this.props.orgUnitActions.resolveMflFacility(this.props.facilities)
+            store.dispatch(push('/resolution'))
         }
 
         return(

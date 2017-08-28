@@ -26,7 +26,7 @@ export default class Dhis2Service {
 
         return fetch(url, request)
             .then(response => {
-                console.log(response)
+                //console.log(response)
                 if (response.status != 200) {
 
                 }

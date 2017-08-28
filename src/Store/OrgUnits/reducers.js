@@ -116,7 +116,7 @@ export default function facilityReducer(state = initialState, action = {}) {
             })
 
         case types.MFL_FACILITY_RESOLUTION_COMPLETED:
-            console.log("@ Reducer Bruh!")
+            //console.log("@ Reducer Bruh!")
             return state.merge({
                 mflFacilityResolutionIsCompleted: true,
                 mflFacilityResolutionIsStarted: false,
