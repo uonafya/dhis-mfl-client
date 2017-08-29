@@ -190,7 +190,6 @@ export function resolveMflFacility(orgUnitsMeta){
     var initialEntry = parseInt(localStorage.getItem("initialEntry")||0)
 
     if(initialEntry!==1){
-        clearLocalStorage()
         var results = []
         setObject("resolutionResults", results)
         setObject("orgUnitsMetaObjectArray", orgUnitsMeta)
@@ -200,9 +199,7 @@ export function resolveMflFacility(orgUnitsMeta){
         localStorage.setItem("resolvedCodes", 0)
         localStorage.setItem("orgUnitsMetaIterratorCursorPos", 0)
         localStorage.setItem("initialEntry", 1)
-        store.dispatch({
-            type: types.MFL_FACILITY_RESOLUTION_STARTED,
-        })
+        
     }
 
     store.dispatch({
@@ -303,6 +300,15 @@ var clearLocalStorage = () => {
     var accessToken = localStorage.getItem('mflAccessToken');
     localStorage.clear();
     localStorage.setItem('mflAccessToken',accessToken);
+}
+
+export function localStorageCls(){
+    return (dispatch, getState) => {
+        clearLocalStorage()
+        dispatch({
+            type: types.MFL_FACILITY_RESOLUTION_STARTED,
+        })
+    }
 }
 
 var updateResolutionResults = (n,c,r) => {
