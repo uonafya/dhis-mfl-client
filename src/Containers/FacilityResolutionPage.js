@@ -48,9 +48,8 @@ class FacilityResolutionPage extends Component {
     componentDidMount() {
         //console.log("@CDM", this.props.facilitiesIsFetched)
         if(this.props.facilitiesIsFetched){
-            this.props.facilityActions.localStorageCls()
-            this.props.facilityActions.resolveMflFacility(this.props.facilities)
-            console.log(this.props.facilities)
+            
+            // console.log(this.props.facilities)
         }
     }
 

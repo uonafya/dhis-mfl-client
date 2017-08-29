@@ -14,9 +14,6 @@ import BottomNavigation, { BottomNavigationButton } from 'material-ui/BottomNavi
 import CloseIcon from 'material-ui-icons/Close';
 
 import Home from "./Home"
-import LoginPage from "./LoginPage"
-import Header from "../Components/Header"
-import FacilitiesPage from "./FacilitiesPage"
 import FacilityResolutionPage from "./FacilityResolutionPage"
 
 const styles = {
@@ -67,8 +64,6 @@ class App extends Component {
                     </Toolbar>
                 </AppBar> 
                 <Route exact path="/" component={Home} />
-                <Route path="/login" component={LoginPage} />
-                <Route path="/facilities" component={FacilitiesPage}/>
                 <Route path="/resolution" component={FacilityResolutionPage}/>
             </div>
         )

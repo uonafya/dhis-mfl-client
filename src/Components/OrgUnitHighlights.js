@@ -43,7 +43,7 @@ const OrgUnitHighlights = (props) => {
                                 Selected Organization Unit Highlights
                             </Typography>
                             <Typography type="display1" style={{marginBottom: 20, marginTop: 20}}  component="h2">
-                                {props.orgUnit.displayName}
+                                {props.orgUnit.name}
                             </Typography>
                             <Grid container spacing={40}>
                                 <Grid item xs={12} sm={6}>
@@ -68,10 +68,10 @@ const OrgUnitHighlights = (props) => {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <Typography type="body1" style={{marginBottom: 0}} className={classes.pos}>
-                                        name:
+                                        display name:
                                     </Typography>
                                     <Typography type="headline" style={{marginBottom: 20}}  component="h2">
-                                        {props.orgUnit.name}
+                                        {props.orgUnit.displayName}
                                     </Typography>
                                     <Typography type="body1" style={{marginBottom: 0}} className={classes.pos}>
                                         children:

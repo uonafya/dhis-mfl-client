@@ -46,7 +46,6 @@ export const OrgUnitForm = (props) => {
     }
 
     const handleWardChanged = (event) => {
-        //window.location = "/resolution"
         props.resetOrgUnitTypeFetched()
         props.getOrgUnit(event.target.value)
         props.getFacilities(event.target.value)

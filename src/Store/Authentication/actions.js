@@ -29,7 +29,7 @@ export function mflApiAuth(){
                             type: types.MFL_LOGIN_SUCCESS,
                             isMflUserAuthenticated: true,
                         })
-                        //console.log("Auth Success")
+                        console.log("Auth Success")
                         sessionStorage.setItem("mflAccessToken", JSON.stringify(response))
                     }else{
                         dispatch({

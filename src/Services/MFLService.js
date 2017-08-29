@@ -130,7 +130,7 @@ export default class MFLService {
 
         return fetch(url, request)
         .then(response => {
-            //console.log("@Get Org Units - MFL Service ", response)
+            console.log("@Get Org Units - MFL Service ", response)
             if (response.status != 200) {
 
             }
