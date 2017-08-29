@@ -9,9 +9,9 @@
     "start": "npm run build",
     "win-start": "npm run win-build",
     "build": "webpack -d && cp src/index.html public/index.html && webpack-dev-server --content-base src/  --inline --hot --history-api-fallback",
-    "build:prod": "webpack -p && cp src/index.html dist/index.html",
+    "build:prod": "webpack -p && cp src/index.html public/index.html",
     "win-build": "webpack -d & copy src/index.html public/index.html & webpack-dev-server --content-base src/  --inline --hot --history-api-fallback",
-    "win-build:prod": "webpack -p & copy src/index.html dist/index.html"
+    "win-build:prod": "webpack -p & copy src/index.html public/index.html"
   },
   "keywords": [
     "dhis-mfl-client"
