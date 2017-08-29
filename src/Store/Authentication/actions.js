@@ -22,24 +22,11 @@ export function mflApiAuth(){
     return (dispatch, getState) => {
         MFLService.getAccesToken()
             .then(response => {
-
-                if(response.hasOwnProperty("access_token") && 
-                    response.hasOwnProperty("refresh_token")){
-                        dispatch({
-                            type: types.MFL_LOGIN_SUCCESS,
-                            isMflUserAuthenticated: true,
-                        })
-                        console.log("Auth Success")
-                        sessionStorage.setItem("mflAccessToken", JSON.stringify(response))
-                    }else{
-                        dispatch({
-                            type: types.MFL_LOGIN_ERROR,
-                            isMflUserAuthenticated: false,
-                            snackbarMessage: "Error. Failed to authenticate to KMHFL API",
-                            openSnackbar: true
-                        })
-                    }
-                
+                dispatch({
+                    type: types.LOGIN_SUCCESS,
+                    isMflUserAuthenticated: true
+                })
+                sessionStorage.setItem("mflAccessToken", JSON.stringify(response))
             })
             .catch(error => { 
                 throw(error)
@@ -48,12 +35,10 @@ export function mflApiAuth(){
 }
 
 setInterval(() => {
-    if(localStorage.hasOwnProperty("mflAccessToken")){
-        MFLService.refreshToken()
+    MFLService.refreshToken()
         .then(response => {
             sessionStorage.setItem("mflAccessToken", JSON.stringify(response))
         })
-    }
 }, 25000)
 
 export function mflUserDetails(){
@@ -64,7 +49,7 @@ export function mflUserDetails(){
                 type: types.MFL_USER_INFORMATION_UPDATED,
                 mflUserInformation: response
             })
-            //console.log(response)
+            console.log(response)
         })
         .catch(error => { 
             throw(error)

@@ -1,5 +1,4 @@
-/.vscode/
-/.idea/
+.vscode/
 /dist
 /public
 /node_modules

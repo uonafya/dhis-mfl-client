@@ -14,15 +14,3 @@ export function getMflUserInformation(state){
         "user": "default"
     }
 }
-
-export function getSnackbarMessage(state) {
-    return state.authenticationReducer.snackbarMessage
-}
-
-export function isAppAuthenticated(state){
-    return state.authenticationReducer.isMflUserAuthenticated
-}
-
-export function getSnackbarMode(state){
-    return state.authenticationReducer.openSnackbar
-}
