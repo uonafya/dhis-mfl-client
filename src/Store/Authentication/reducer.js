@@ -5,7 +5,9 @@ const initialState = Immutable({
     userInformation: undefined,
     mflApiKey: undefined,
     mflUserInformation: undefined,
-    isMflUserAuthenticated: false
+    isMflUserAuthenticated: false,
+    snackbarMessage: undefined,
+    openSnackbar: false
 })
 
 export default function authenticationReducer(state=initialState, action={}){
@@ -18,8 +20,14 @@ export default function authenticationReducer(state=initialState, action={}){
 
         case types.MFL_LOGIN_SUCCESS:
             return state.merge({
-                // mflApiKey: action.mflApiKey,
-                isMflUserAuthenticated: true
+                isMflUserAuthenticated: action.isMflUserAuthenticated,
+            })
+
+        case types.MFL_LOGIN_ERROR:
+            return state.merge({
+                isMflUserAuthenticated: action.isMflUserAuthenticated,
+                snackbarMessage: action.snackbarMessage,
+                openSnackbar: action.openSnackbar
             })
 
         case types.MFL_USER_DETAILS_UPDATED:
