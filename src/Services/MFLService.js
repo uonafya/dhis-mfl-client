@@ -5,7 +5,7 @@ export default class MFLService {
         return MFLService.host = 'http://api.kmhfltest.health.go.ke'
     }
 
-    static get credentials(){
+    static get credentials() {
         delete MFLService.credentials
         const credentials = {
             "username": "dennisbanga@gmail.com",
@@ -17,93 +17,90 @@ export default class MFLService {
         return MFLService.credentials = credentials
     }
 
-    static getAccesToken(){
-        const url = this.host+"/o/token/?"
-                            +"grant_type="+this.credentials.grantType
-                            +"&username="+this.credentials.username
-                            +"&password="+this.credentials.password
+    static getAccesToken() {
+        const url = this.host + "/o/token/?"
+            + "grant_type=" + this.credentials.grantType
+            + "&username=" + this.credentials.username
+            + "&password=" + this.credentials.password
 
         const request = {
             method: "POST",
             headers: new Headers({
                 "Content-Type": "application/json",
-                "Vary": "Accept",
                 "Accept": "application/json",
-                "Authorization": "Basic "+btoa(this.credentials.clientId+":"+this.credentials.clientSecret)
+                "Authorization": "Basic " + btoa(this.credentials.clientId + ":" + this.credentials.clientSecret)
             }),
             json: true
         }
 
         return fetch(url, request)
-        .then(response => {
-            //console.log("@Get Token - MFL Service ", response)
-            if (response.status != 200) {
+            .then(response => {
+                //console.log("@Get Token - MFL Service ", response)
+                if (response.status != 200) {
 
-            }
-            return response.json()
-        })
-        .catch(error => {
-            return error
-        })
+                }
+                return response.json()
+            })
+            .catch(error => {
+                return error
+            })
     }
 
-    static refreshToken(){
+    static refreshToken() {
         const accesToken = JSON.parse(sessionStorage.getItem("mflAccessToken"))
-        const url = this.host+"/o/token/?"
-                           +"grant_type=refresh_token"
-                           +"&refresh_token="+accesToken.refresh_token
-                           +"&client_id="+this.credentials.clientId
-                           +"&client_secret="+this.credentials.clientSecret
+        const url = this.host + "/o/token/?"
+            + "grant_type=refresh_token"
+            + "&refresh_token=" + accesToken.refresh_token
+            + "&client_id=" + this.credentials.clientId
+            + "&client_secret=" + this.credentials.clientSecret
 
         const request = {
             method: "POST",
             headers: new Headers({
                 "Content-Type": "application/json",
-                "Vary": "Accept",
-                "Accept": "application/json"
+                "Accept": "application/json",
             }),
             json: true
         }
 
         return fetch(url, request)
-        .then(response => {
-            //console.log("@Refresh Token - MFL Service ", response)
-            if (response.status != 200) {
+            .then(response => {
+                //console.log("@Refresh Token - MFL Service ", response)
+                if (response.status != 200) {
 
-            }
-            return response.json()
-        })
-        .catch(error => {
-            return error
-        })
+                }
+                return response.json()
+            })
+            .catch(error => {
+                return error
+            })
     }
 
-    static getOrgUnits(mflCodes){
+    static getOrgUnits(mflCodes) {
         const accesToken = JSON.parse(sessionStorage.getItem("mflAccessToken"))
-        const url = this.host+"/api/facilities/facilities/?code="+mflCodes
+        const url = this.host + "/api/facilities/facilities/?code=" + mflCodes
 
         const request = {
             method: "GET",
             headers: new Headers({
                 "Content-Type": "application/json",
-                "Vary": "Accept",
                 "Accept": "application/json",
-                "Authorization": "Bearer "+accesToken.access_token
+                "Authorization": "Bearer " + accesToken.access_token
             }),
             json: true
         }
 
         return fetch(url, request)
-        .then(response => {
-            //console.log("@Get Org Units - MFL Service ", response)
-            if (response.status != 200) {
+            .then(response => {
+                //console.log("@Get Org Units - MFL Service ", response)
+                if (response.status != 200) {
 
-            }
-            return response.json()
-        })
-        .catch(error => {
-            return error
-        })
+                }
+                return response.json()
+            })
+            .catch(error => {
+                return error
+            })
     }
 
     /**
@@ -113,31 +110,30 @@ export default class MFLService {
      *                              endPoint: "name=[name]" or "code=[code]" or "name=[name]&code=[code]"
      *                          }
      */
-    static getOrgUnit(orgUnitMeta){
+    static getOrgUnit(orgUnitMeta) {
         const accesToken = JSON.parse(sessionStorage.getItem("mflAccessToken"))
-        const url = this.host+"/api/facilities/facilities/?"+orgUnitMeta.endPoint
+        const url = this.host + "/api/facilities/facilities/?" + orgUnitMeta.endPoint
 
         const request = {
             method: "GET",
             headers: new Headers({
                 "Content-Type": "application/json",
-                "Vary": "Accept",
                 "Accept": "application/json",
-                "Authorization": "Bearer "+accesToken.access_token
+                "Authorization": "Bearer " + accesToken.access_token
             }),
             json: true
         }
 
         return fetch(url, request)
-        .then(response => {
-            console.log("@Get Org Units - MFL Service ", response)
-            if (response.status != 200) {
+            .then(response => {
+                console.log("@Get Org Units - MFL Service ", response)
+                if (response.status != 200) {
 
-            }
-            return response.json()
-        })
-        .catch(error => {
-            return error
-        })
+                }
+                return response.json()
+            })
+            .catch(error => {
+                return error
+            })
     }
 }

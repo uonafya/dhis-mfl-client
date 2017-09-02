@@ -1,0 +1,23 @@
+{
+    "version": "0.1",
+    "name": "dhis2-mfl-client",
+    "description": "DHIS2-KMHFL Client",
+    "launch_path": "index.html",
+    "appType": "APP",
+    "icons": {
+        "16": "/img/icons/mortar-16.png",
+        "48": "/img/icons/mortar-48.png",
+        "128": "/img/icons/mortar-128.png"
+    },
+    "developer": {
+        "name": "HealthIT Workforce 2017",
+        "url": "http://me.com"
+    },
+    "default_locale": "en",
+    "activities": {
+        "dhis": {
+            "href": "*",
+            "namespace": "workforce"
+        }
+    }
+}

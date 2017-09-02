@@ -62,7 +62,7 @@ export default class Dhis2Service {
     }
 
     static getOrgUnit(id) {
-        const url = this.host.concat('organisationUnits/'+id+'.json')
+        const url = this.host.concat('organisationUnits/' + id + '.json')
         const request = {
             method: "GET",
             headers: {
