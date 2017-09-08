@@ -51,6 +51,8 @@ class FacilityResolutionPage extends Component {
             
             // console.log(this.props.facilities)
         }
+        alert('mounting')
+        console.log('mounting')
     }
 
     render() {
