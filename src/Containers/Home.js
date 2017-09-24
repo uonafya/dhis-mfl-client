@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
 import { push } from 'react-router-redux'
-
+import { Link } from "react-router-dom"
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
@@ -104,7 +104,8 @@ class Home extends Component {
             event.preventDefault()
             this.props.orgUnitActions.localStorageCls()
             this.props.orgUnitActions.resolveMflFacility(this.props.facilities)
-            store.dispatch(push('/resolution'))
+            // store.dispatch(push('/resolution'))
+
         }
 
         return(
@@ -147,13 +148,14 @@ class Home extends Component {
                                             <CardActions>
                                             {
                                                 this.props.facilitiesIsFetched ? (
-                                                    <Button 
-                                                        raised  
+                                                    <Link                                                           
                                                         style={{background:"#276696", color:"#fff", marginTop: -35}} 
                                                         className={classes.button}
-                                                        onClick={handleSubmitResolve.bind(this)}>
+                                                        onMouseDown={handleSubmitResolve.bind(this)}                                                        
+                                                        to="/resolution"
+                                                        >
                                                         Resolve Organization Units
-                                                    </Button>
+                                                    </Link>
                                                 ) : (<span />)
                                             }
                                             </CardActions>
