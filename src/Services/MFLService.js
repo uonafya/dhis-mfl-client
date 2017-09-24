@@ -9,7 +9,7 @@ export default class MFLService {
         delete MFLService.credentials
         const credentials = {
             "username": "dennisbanga@gmail.com",
-            "password": "healthit123",
+            "password": "banga123",
             "grantType": "password",
             "clientId": "5O1KlpwBb96ANWe27ZQOpbWSF4DZDm4sOytwdzGv",
             "clientSecret": "PqV0dHbkjXAtJYhY9UOCgRVi5BzLhiDxGU91kbt5EoayQ5SYOoJBYRYAYlJl2RetUeDMpSvhe9DaQr0HKHan0B9ptVyoLvOqpekiOmEqUJ6HZKuIoma0pvqkkKDU9GPv"
