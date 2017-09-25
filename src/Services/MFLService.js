@@ -27,7 +27,7 @@ export default class MFLService {
             method: "POST",
             headers: new Headers({
                 "Content-Type": "application/json",
-                "Vary": "Accept",
+                // "Vary": "Accept",
                 "Accept": "application/json",
                 "Authorization": "Basic "+btoa(this.credentials.clientId+":"+this.credentials.clientSecret)
             }),
