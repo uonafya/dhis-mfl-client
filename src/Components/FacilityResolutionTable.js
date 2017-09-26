@@ -19,9 +19,9 @@ const FacilityResolutionTable = (props) => {
 
     return (
         <Paper className={classes.paper}>
-            <Table>
+            <Table style={{tableLayout: 'auto'}}>
                 <TableHead>
-                    <TableRow>
+                    <TableRow >
                         <TableCell style={{ width: 33}}>Org unit</TableCell>
                         <TableCell style={{ width: 33}}>DHIS2</TableCell>
                         <TableCell  style={{ width: 33}}>KMHFL</TableCell>
@@ -40,6 +40,12 @@ const FacilityResolutionTable = (props) => {
                                     <TableCell>code</TableCell>
                                     <TableCell >{facility.code.meta.dhis2Code}</TableCell>
                                     <TableCell >{facility.code.meta.mflCode}</TableCell>
+                                </TableRow>
+                                <TableRow >
+                                    <TableCell>coordinates</TableCell>
+                                    <TableCell >{facility.code.meta.dhis2Coordinates}</TableCell>
+                                    <TableCell >{facility.code.meta.mflCoordinates}</TableCell>
+                                    
                                 </TableRow>
                                 <TableRow/>
                             </TableRow>

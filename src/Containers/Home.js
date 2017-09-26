@@ -29,18 +29,18 @@ const styles = theme => ({
         flexGrow: 1,
         margin: "30px auto auto auto",
         maxWidth: 1200
-      },
+    },
     card: {
-      minWidth: 275,
+        minWidth: 275,
     },
     title: {
-      marginBottom: 16,
-      fontSize: 14,
-      color: theme.palette.text.secondary,
+        marginBottom: 16,
+        fontSize: 14,
+        color: theme.palette.text.secondary,
     },
     pos: {
-      marginBottom: 12,
-      color: theme.palette.text.secondary,
+        marginBottom: 12,
+        color: theme.palette.text.secondary,
     },
     elonSelect: {
         width: "70%",
@@ -53,13 +53,17 @@ const styles = theme => ({
     },
     progress: {
         margin: `0 ${theme.spacing.unit * 2}px`,
-      },
-  });
+    },
+});
 
 class Home extends Component {
 
-    componentWillMount(){
+    componentWillMount() {
         this.props.authenticationActions.mflApiAuth()
+    }
+
+    createExcel() {
+        this.props.orgUnitActions.createExcel(undefined)
     }
 
     componentDidMount() {
@@ -68,35 +72,35 @@ class Home extends Component {
 
     //handleChange = (event, index, value) => console.log(event.target.value)
 
-    render(){
+    render() {
 
         const classes = this.props.classes;
         const bull = <span className={classes.bullet}>•</span>;
 
         var loader;
 
-        if(this.props.orgUnitLevelFetched===2){
+        if (this.props.orgUnitLevelFetched === 2) {
             console.log("@ 2")
-            loader = <OrgUnitHighlights init={this.props.countiesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} />
-        }else if(this.props.orgUnitLevelFetched===3){
+            loader = <OrgUnitHighlights init={this.props.countiesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} children={this.props.constituencies} />
+        } else if (this.props.orgUnitLevelFetched === 3) {
             console.log("@ 3")
-            loader = <OrgUnitHighlights init={this.props.constituenciesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} />
-        }else if(this.props.orgUnitLevelFetched===4){
+            loader = <OrgUnitHighlights init={this.props.constituenciesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} children={this.props.wards} />
+        } else if (this.props.orgUnitLevelFetched === 4) {
             console.log("@ 4")
-            loader = <OrgUnitHighlights init={this.props.wardsIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} />
-        }else if(this.props.orgUnitLevelFetched===5){
+            loader = <OrgUnitHighlights init={this.props.wardsIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} children={this.props.facilities} />
+        } else if (this.props.orgUnitLevelFetched === 5) {
             console.log("@ 5")
-            loader = <OrgUnitHighlights init={this.props.facilitiesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} />
-        }else{
-            if(this.props.countiesIsFetched){
+            loader = <OrgUnitHighlights init={this.props.facilitiesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} children={undefined} />
+        } else {
+            if (this.props.countiesIsFetched) {
                 console.log("@ else 1")
-                loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} />
-            }else{
+                loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} children={undefined} />
+            } else {
                 console.log("@ else 2")
-                loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} />
+                loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} children={undefined} />
             }
             // console.log("@ else 0")
-            
+
             // loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} />
         }
 
@@ -108,14 +112,14 @@ class Home extends Component {
 
         }
 
-        return(
+        return (
             <div>
                 {
                     this.props.isAppAuthenticated ? (
                         <div>
                             <div className={classes.root}>
-                                <Typography type="display3" style={{textAlign: "center"}} gutterBottom>
-                                   Organization Unit Resolution
+                                <Typography type="display3" style={{ textAlign: "center" }} gutterBottom>
+                                    Organization Unit Resolution
                                 </Typography>
                                 <Grid container spacing={40}>
                                     <Grid item xs={12} sm={6}>
@@ -139,32 +143,35 @@ class Home extends Component {
                                                             getOrgUnit={this.props.orgUnitActions.getOrgUnit}
                                                             resetOrgUnitTypeFetched={this.props.orgUnitActions.resetOrgUnitTypeFetched} />
                                                     ) : (
-                                                        <div style={{marginLeft: "45%"}}>
-                                                            <CircularProgress className={classes.progress} size={50} />
-                                                        </div>
+                                                            <div style={{ marginLeft: "45%" }}>
+                                                                <CircularProgress className={classes.progress} size={50} />
+                                                            </div>
                                                         )
                                                 }
                                             </CardContent>
                                             <CardActions>
-                                            {
-                                                this.props.facilitiesIsFetched ? (
-                                                    <Link                                                           
-                                                        style={{background:"#276696", color:"#fff", marginTop: -35}} 
-                                                        className={classes.button}
-                                                        onMouseDown={handleSubmitResolve.bind(this)}                                                        
-                                                        to="/resolution"
-                                                        >
-                                                        Resolve Organization Units
-                                                    </Link>
-                                                ) : (<span />)
-                                            }
+                                                {
+                                                    this.props.facilitiesIsFetched ? (
+                                                        <div>
+                                                            <Link
+                                                                style={{ background: "#276696", color: "#fff", marginTop: -35 }}
+                                                                className={classes.button}
+                                                                onMouseDown={handleSubmitResolve.bind(this)}
+                                                                to="/resolution"
+                                                            >
+                                                                Resolve Organization Units
+                                                            </Link>
+                                                            <Button onClick={this.createExcel.bind(this)}/>
+                                                        </div>
+                                                    ) : (<span />)
+                                                }
                                             </CardActions>
                                         </Card>
                                     </Grid>
                                     {loader}
                                 </Grid>
                             </div>
-                            
+
                         </div>
                     ) : (
                             <Snackbar />
@@ -215,6 +222,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-const homePageConnect =  connect(mapStateToProps, mapDispatchToProps,)(Home)
+const homePageConnect = connect(mapStateToProps, mapDispatchToProps, )(Home)
 
 export default withStyles(styles)(homePageConnect)

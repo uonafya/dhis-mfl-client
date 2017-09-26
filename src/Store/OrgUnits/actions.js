@@ -3,6 +3,8 @@ import Dhis2Service from "../../Services/Dhis2Service"
 import MFLService from "../../Services/MFLService"
 import store from "../configureStore"
 
+
+
 export const orgLevels = {
     country: 1,
     counties: 2,
@@ -53,8 +55,8 @@ export function getOrgUnit(id) {
                     orgUnit: orgUnit
                 })
             })
-            .catch(error =>{
-                throw(error)
+            .catch(error => {
+                throw (error)
             })
     }
 }
@@ -72,7 +74,7 @@ export function getFacilities(wardId, pageNumber = 1) {
                 })
                 //console.log("@Get Facilities", wardFacilities)
                 //resolveMflFacility(wardFacilities.children)
-                
+
             })
             .catch(error => {
                 throw (error)
@@ -153,15 +155,15 @@ export function getWards(constituencyId) {
     }
 }
 
-export function resetOrgUnitTypeFetched(){
-    return function (dispatch, getState){
+export function resetOrgUnitTypeFetched() {
+    return function (dispatch, getState) {
         dispatch({
             type: types.RESET_ORGUNIT_TYPE_RETRIEVED
         })
     }
 }
 
-export function getMflFacilities(mflCodes){
+export function getMflFacilities(mflCodes) {
     return (dispatch, getState) => {
 
         dispatch({
@@ -178,18 +180,19 @@ export function getMflFacilities(mflCodes){
                 })
             })
             .catch(error => {
-                throw(error)
+                throw (error)
             })
     }
 }
 
-export function resolveMflFacility(orgUnitsMeta){
+
+export function resolveMflFacility(orgUnitsMeta) {
 
     //clearLocalStorage()
 
-    var initialEntry = parseInt(localStorage.getItem("initialEntry")||0)
+    var initialEntry = parseInt(localStorage.getItem("initialEntry") || 0)
 
-    if(initialEntry!==1){
+    if (initialEntry !== 1) {
         var results = []
         setObject("resolutionResults", results)
         setObject("orgUnitsMetaObjectArray", orgUnitsMeta)
@@ -199,147 +202,151 @@ export function resolveMflFacility(orgUnitsMeta){
         localStorage.setItem("resolvedCodes", 0)
         localStorage.setItem("orgUnitsMetaIterratorCursorPos", 0)
         localStorage.setItem("initialEntry", 1)
-        
+
     }
 
     store.dispatch({
         type: types.MFL_FACILITY_RESOLUTION_STATUS,
-        mflFacilityResolutionStatus: "Resolving facility "+
-                                    (parseInt(localStorage.getItem('orgUnitsMetaIterratorCursorPos'))+1)+
-                                    " of "+
-                                    parseInt(localStorage.getItem('orgUnitsMetaObjectArrayCount'))
+        mflFacilityResolutionStatus: "Resolving facility " +
+        (parseInt(localStorage.getItem('orgUnitsMetaIterratorCursorPos')) + 1) +
+        " of " +
+        parseInt(localStorage.getItem('orgUnitsMetaObjectArrayCount'))
     })
 
     var orgUnitsMetaIterratorCursorPos = parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))
     var dhis2FacilityName = (orgUnitsMeta[orgUnitsMetaIterratorCursorPos].name || '0')
-    var dhis2FacilityCode = (orgUnitsMeta[orgUnitsMetaIterratorCursorPos].code || 0)    
+    var dhis2FacilityCode = (orgUnitsMeta[orgUnitsMetaIterratorCursorPos].code || 0)
 
     var orgUnitMeta = {
         type: "getByNameAndCode",
-        endPoint: "name="+dhis2FacilityName+"&code="+dhis2FacilityCode
+        endPoint: "name=" + dhis2FacilityName + "&code=" + dhis2FacilityCode
     }
 
 
     MFLService.getOrgUnit(orgUnitMeta)
         .then(response => {
-            
-            if(response.count !== 1){
+
+            if (response.count !== 1) {
 
                 orgUnitMeta = {
                     type: "getByName",
-                    endPoint: "name="+dhis2FacilityName
+                    endPoint: "name=" + dhis2FacilityName
                 }
 
                 MFLService.getOrgUnit(orgUnitMeta)
                     .then(response => {
-                        if(response.count !== 1){
+                        if (response.count !== 1) {
 
                             orgUnitMeta = {
                                 type: "getByCode",
-                                endPoint: "code="+dhis2FacilityCode
+                                endPoint: "code=" + dhis2FacilityCode
                             }
 
                             MFLService.getOrgUnit(orgUnitMeta)
                                 .then(response => {
-                                    if(response.count === 1){
+                                    if (response.count === 1) {
 
                                         incrementResolvedItem("resolvedCodes")
-                                        updateResolutionResults(0,1,response)
+                                        updateResolutionResults(0, 1, response)
                                         prepareForDispatch()
 
-                                    }else{
-                                        updateResolutionResults(0,0,response)
+                                    } else {
+                                        updateResolutionResults(0, 0, response)
                                         prepareForDispatch()
                                     }
                                 })
                                 .catch(error => {
-                                    throw(error)
+                                    throw (error)
                                 })
 
-                        }else if(response.count === 1){
+                        } else if (response.count === 1) {
 
                             incrementResolvedItem("resolvedNames")
-                            updateResolutionResults(1,0,response)
+                            updateResolutionResults(1, 0, response)
                             prepareForDispatch()
-                            
-                        }else{
-                            updateResolutionResults(0,0,response)
+
+                        } else {
+                            updateResolutionResults(0, 0, response)
                             prepareForDispatch()
                         }
                     })
                     .catch(error => {
-                        throw(error)
+                        throw (error)
                     })
 
 
-            }else if(response.count === 1){    
+            } else if (response.count === 1) {
 
                 incrementResolvedItem("resolvedNamesAndCodes")
-                updateResolutionResults(1,1,response)
+                updateResolutionResults(1, 1, response)
                 prepareForDispatch()
 
-            }else{
-                updateResolutionResults(0,0,response)
+            } else {
+                updateResolutionResults(0, 0, response)
                 prepareForDispatch()
             }
         })
         .catch(error => {
-            throw(error)
+            throw (error)
         })
 
-        return (dispatch, getState) => {
-            dispatch({
-                type: types.MFL_FACILITY_RESOLUTION_STARTED
-            })
-        }
+    return (dispatch, getState) => {
+        dispatch({
+            type: types.MFL_FACILITY_RESOLUTION_STARTED
+        })
+    }
 }
 
-var setObject = (k,v) => {localStorage.setItem(k, JSON.stringify(v))}
-var getObject = (k) => {return JSON.parse(localStorage.getItem(k) || "[]")}
+var setObject = (k, v) => { localStorage.setItem(k, JSON.stringify(v)) }
+var getObject = (k) => { return JSON.parse(localStorage.getItem(k) || "[]") }
 var clearLocalStorage = () => {
     localStorage.clear();
 }
 
-export function localStorageCls(){
+export function localStorageCls() {
     return (dispatch, getState) => {
         console.log("Hey")
         clearLocalStorage()
     }
 }
 
-var updateResolutionResults = (n,c,r) => {
+var updateResolutionResults = (n, c, r) => {
     var oldObj = getObject("resolutionResults")
     var update = {
-                    "id": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].id || 0),
-                    "name":{
-                        "didResolve": n,
-                        "meta": {
-                            "dhis2Name": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].name || '0'),
-                            "mflName": (n > 0 || c > 0 ? r.results[0].name:"Not Resolved")
-                        }
-                    },
-                    "code": {
-                        "didResolve": c,
-                        "meta": {
-                            "dhis2Code": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].code || 0),
-                            "mflCode": (c > 0 || n > 0? r.results[0].code:"Not Resolved")
-                        }
-                    }
-                }
-                
+        "id": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].id || 0),
+        "name": {
+            "didResolve": n,
+            "meta": {
+                "dhis2Name": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].name || '0'),
+                "dhis2Coordinates": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].coordinates || '0'),
+                "mflName": (n > 0 || c > 0 ? r.results[0].name : "Not Resolved"),
+                "mflCoordinates": (c > 0 || n > 0 ? (r.results[0].lat_long[0] + ',' + r.results[0].lat_long[1]) : "Not Resolved"),
+            }
+        },
+        "code": {
+            "didResolve": c,
+            "meta": {
+                "dhis2Code": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].code || 0),
+                "dhis2Coordinates": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].coordinates || '0'),
+                "mflCode": (c > 0 || n > 0 ? r.results[0].code : "Not Resolved"),
+                "mflCoordinates": (c > 0 || n > 0 ? (r.results[0].lat_long[0] + ',' + r.results[0].lat_long[1]) : "Not Resolved"),
+            }
+        }
+    }
+
     oldObj.push(update)
     setObject("resolutionResults", oldObj)
     //console.log(getObject("resolutionResults"), "responseObj", response)
 }
 
 var prepareForDispatch = () => {
-    if((parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))+1)
-        < parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))){
-            localStorage.setItem("orgUnitsMetaIterratorCursorPos", 
-            parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))+1) 
-            //console.log("@ Resolve Facility Action - Count === 1 > ",localStorage.getItem("orgUnitsMetaIterratorCursorPos"))                            
-            resolveMflFacility(getObject("orgUnitsMetaObjectArray"))
-    }else{
+    if ((parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos")) + 1)
+        < parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))) {
+        localStorage.setItem("orgUnitsMetaIterratorCursorPos",
+            parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos")) + 1)
+        //console.log("@ Resolve Facility Action - Count === 1 > ",localStorage.getItem("orgUnitsMetaIterratorCursorPos"))                            
+        resolveMflFacility(getObject("orgUnitsMetaObjectArray"))
+    } else {
         var toEvans = getObject("resolutionResults")
         var stats = {
             "resolvedNamesAndCodes": parseInt(localStorage.getItem("resolvedNamesAndCodes")),
@@ -360,5 +367,6 @@ var prepareForDispatch = () => {
 
 var incrementResolvedItem = (item) => {
     localStorage.setItem(item,
-        parseInt(localStorage.getItem(item))+1)
+        parseInt(localStorage.getItem(item)) + 1)
 }
+
