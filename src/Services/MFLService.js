@@ -27,7 +27,6 @@ export default class MFLService {
             method: "POST",
             headers: new Headers({
                 "Content-Type": "application/json",
-                // "Vary": "Accept",
                 "Accept": "application/json",
                 "Authorization": "Basic "+btoa(this.credentials.clientId+":"+this.credentials.clientSecret)
             }),
@@ -59,7 +58,6 @@ export default class MFLService {
             method: "POST",
             headers: new Headers({
                 "Content-Type": "application/json",
-                "Vary": "Accept",
                 "Accept": "application/json"
             }),
             json: true
@@ -86,7 +84,6 @@ export default class MFLService {
             method: "GET",
             headers: new Headers({
                 "Content-Type": "application/json",
-                "Vary": "Accept",
                 "Accept": "application/json",
                 "Authorization": "Bearer "+accesToken.access_token
             }),
@@ -121,7 +118,6 @@ export default class MFLService {
             method: "GET",
             headers: new Headers({
                 "Content-Type": "application/json",
-                "Vary": "Accept",
                 "Accept": "application/json",
                 "Authorization": "Bearer "+accesToken.access_token
             }),
