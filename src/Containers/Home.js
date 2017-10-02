@@ -81,23 +81,23 @@ class Home extends Component {
 
         if (this.props.orgUnitLevelFetched === 2) {
             console.log("@ 2")
-            loader = <OrgUnitHighlights init={this.props.countiesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} children={this.props.constituencies} />
+            loader = <OrgUnitHighlights init={this.props.countiesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} orgUnitChildren={this.props.constituencies}  />
         } else if (this.props.orgUnitLevelFetched === 3) {
             console.log("@ 3")
-            loader = <OrgUnitHighlights init={this.props.constituenciesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} children={this.props.wards} />
+            loader = <OrgUnitHighlights init={this.props.constituenciesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} orgUnitChildren={this.props.constituencies} />
         } else if (this.props.orgUnitLevelFetched === 4) {
             console.log("@ 4")
-            loader = <OrgUnitHighlights init={this.props.wardsIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} children={this.props.facilities} />
+            loader = <OrgUnitHighlights init={this.props.wardsIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} orgUnitChildren={this.props.wards} />
         } else if (this.props.orgUnitLevelFetched === 5) {
             console.log("@ 5")
-            loader = <OrgUnitHighlights init={this.props.facilitiesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} children={undefined} />
+            loader = <OrgUnitHighlights init={this.props.facilitiesIsFetched} orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={true} orgUnitChildren={this.props.facilities} />
         } else {
             if (this.props.countiesIsFetched) {
                 console.log("@ else 1")
-                loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} children={undefined} />
+                loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} orgUnitChildren={undefined} />
             } else {
                 console.log("@ else 2")
-                loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} children={undefined} />
+                loader = <OrgUnitHighlights orgUnit={this.props.orgUnitSelected} isOrgUnitLoaded={false} init={false} orgUnitChildren={this.props.counties}  />
             }
             // console.log("@ else 0")
 
