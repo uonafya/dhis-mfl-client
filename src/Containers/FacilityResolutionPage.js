@@ -112,6 +112,9 @@ class FacilityResolutionPage extends Component {
                                 <Typography type="headline" gutterBottom>
                                     TOTAL:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.total}
                                 </Typography>
+                                <Typography type="body1" style={{ marginTop: -20 }} className={classes.pos}>                                                                        
+                                    <span style={{ fontStyle: "italic", fontSize: "90%", color: "#000000" }}>Disclaimer! This information is based on DHIS2 & KMHFL data</span>
+                                </Typography>
                             </Paper>
                         ) : (
                                 <Paper className={classes.root} elevation={4}>
@@ -130,9 +133,9 @@ class FacilityResolutionPage extends Component {
                                 <div>
                                     <FacilityResolutionTable data={this.props.resolvedMflFacilities} />
                                 </div>
-                                ):(
-                                <div>No table</div>
-                            )
+                            ) : (
+                                    <div>No table</div>
+                                )
 
                         }
                         {
