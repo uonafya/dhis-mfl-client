@@ -185,7 +185,7 @@ export function getMflFacilities(mflCodes) {
     }
 }
 5
-export function createExcel(resolutionData) {
+export function createExcel(resolutionData, fileName="resolution") {
     return function (dispatch, getState){
         let data = []
         resolutionData.map((instance, i) => {
@@ -213,7 +213,7 @@ export function createExcel(resolutionData) {
 
         console.log(data)
         var opts = [{ sheetid: 'Resolution', header: true }];
-        var res = alasql('SELECT * INTO XLSX("resolution.xlsx",?) FROM ?',
+        var res = alasql('SELECT * INTO XLSX("' + fileName + '.xlsx",?) FROM ?',
             [opts, [data]]);
 
 
