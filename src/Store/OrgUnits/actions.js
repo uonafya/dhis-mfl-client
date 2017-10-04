@@ -2,7 +2,7 @@ import * as types from "./actionTypes"
 import Dhis2Service from "../../Services/Dhis2Service"
 import MFLService from "../../Services/MFLService"
 import store from "../configureStore"
-import fileDownload from "js-file-download"
+
 
 
 export const orgLevels = {
@@ -217,7 +217,7 @@ export function createExcel(resolutionData) {
             [opts, [data]]);
 
 
-        // fileDownload(res, 'facility.xlsx')
+        
     }
 }
 
