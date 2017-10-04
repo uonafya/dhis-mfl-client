@@ -1,64 +1,48 @@
+import React from 'react'
+import { Table, Icon, Header } from "semantic-ui-react"
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import Paper from 'material-ui/Paper';
-
-const styles = theme => ({
-    paper: {
-        width: '100%',
-        marginTop: theme.spacing.unit * 3,
-        overflowX: 'auto',
-    },
-});
-
-
-const FacilityResolutionTable = (props) => {
-    const classes = props.classes;
-
+export const FacilityResolutionTable = (props) => {
     return (
-        <Paper className={classes.paper}>
-            <Table style={{tableLayout: 'auto'}}>
-                <TableHead>
-                    <TableRow >
-                        <TableCell style={{ width: 33}}>Org unit</TableCell>
-                        <TableCell style={{ width: 33}}>DHIS2</TableCell>
-                        <TableCell  style={{ width: 33}}>KMHFL</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {props.data.map((facility, i) => {
-                        return (
-                            <TableRow key={i}>
-                                <TableRow>
-                                    <TableCell>Name</TableCell>
-                                    <TableCell >{facility.name.meta.dhis2Name}</TableCell>
-                                    <TableCell >{facility.name.meta.mflName}</TableCell>
-                                </TableRow>
-                                <TableRow >
-                                    <TableCell>code</TableCell>
-                                    <TableCell >{facility.code.meta.dhis2Code}</TableCell>
-                                    <TableCell >{facility.code.meta.mflCode}</TableCell>
-                                </TableRow>
-                                <TableRow >
-                                    <TableCell>coordinates</TableCell>
-                                    <TableCell >{facility.code.meta.dhis2Coordinates}</TableCell>
-                                    <TableCell >{facility.code.meta.mflCoordinates}</TableCell>
-                                    
-                                </TableRow>
-                                <TableRow/>
-                            </TableRow>
-                        );
-                    })}
-                </TableBody>
-            </Table>
-        </Paper>
-    );
+        <Table celled>
+            <Table.Header>
+                <Table.Row>
+                    <Table.HeaderCell></Table.HeaderCell>
+                    <Table.HeaderCell>DHIS2</Table.HeaderCell>
+                    <Table.HeaderCell>KMHFL</Table.HeaderCell>
+                </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+                {props.data.map((facility, i) => {
+                    return ([
+                        <Table.Row >
+                            <Table.Cell>
+                                <Header as='h3'>{facility.name.meta.dhis2Name}</Header>
+                            </Table.Cell>
+                            <Table.Cell>{facility.name.meta.dhis2Name}</Table.Cell>
+                            <Table.Cell>{facility.name.meta.mflName}</Table.Cell>
+                        </Table.Row>,
+                        <Table.Row>
+                            <Table.Cell disabled>Code</Table.Cell>
+                            <Table.Cell>{facility.code.meta.dhis2Code}</Table.Cell>
+                            <Table.Cell>{facility.code.meta.mflCode}</Table.Cell>
+                        </Table.Row>,
+                        <Table.Row>
+                            <Table.Cell disabled>Coordinates</Table.Cell>
+                            <Table.Cell>{facility.code.meta.dhis2Coordinates}</Table.Cell>
+                            <Table.Cell>{facility.code.meta.mflCoordinates}</Table.Cell>
+                        </Table.Row>,
+                        <Table.Row disabled>
+                            <Table.Cell></Table.Cell>
+                            <Table.Cell></Table.Cell>
+                            <Table.Cell></Table.Cell>
+                        </Table.Row>
+                    ]
+                    )
+                })}
+            </Table.Body>
+        </Table>
+    )
 }
 
-FacilityResolutionTable.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(FacilityResolutionTable);
+export default FacilityResolutionTable
