@@ -34,8 +34,7 @@ export default class MFLService {
         }
 
         return fetch(url, request)
-        .then(response => {
-            //console.log("@Get Token - MFL Service ", response)
+        .then(response => {            
             if (response.status != 200) {
 
             }
@@ -64,8 +63,7 @@ export default class MFLService {
         }
 
         return fetch(url, request)
-        .then(response => {
-            //console.log("@Refresh Token - MFL Service ", response)
+        .then(response => {            
             if (response.status != 200) {
 
             }
@@ -91,8 +89,7 @@ export default class MFLService {
         }
 
         return fetch(url, request)
-        .then(response => {
-            //console.log("@Get Org Units - MFL Service ", response)
+        .then(response => {            
             if (response.status != 200) {
 
             }
@@ -125,8 +122,7 @@ export default class MFLService {
         }
 
         return fetch(url, request)
-        .then(response => {
-            console.log("@Get Org Units - MFL Service ", response)
+        .then(response => {            
             if (response.status != 200) {
 
             }

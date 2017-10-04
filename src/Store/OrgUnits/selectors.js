@@ -39,12 +39,12 @@ export function getFacilities(state) {
 }
 
 export function getMflFacilitiesFetchStatus(state){
-    //console.log("@ Get MFL Facility Fetshced Status", state.facilityReducer.mflFacilitiesIsFetched)
+    
     return state.facilityReducer.mflFacilitiesIsFetched
 }
 
 export function getMflFacilities(state){
-    //console.log("@ Get MFL Facilities", state.facilityReducer.mflFacilities)
+    
     return state.facilityReducer.mflFacilities
 }
 

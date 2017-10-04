@@ -51,8 +51,7 @@ const styles = theme => ({
 
 class FacilityResolutionPage extends Component {
 
-    componentDidMount() {
-        //console.log("@CDM", this.props.facilitiesIsFetched)
+    componentDidMount() {        
     }
 
 
@@ -121,7 +120,7 @@ class FacilityResolutionPage extends Component {
                                         <span style={{ fontStyle: "italic", fontSize: "90%", color: "#000000" }}>Disclaimer! This information is based on DHIS2 & KMHFL data</span>
                                     </Typography>
                                     <Button raised color="primary" className={classes.button}
-                                        onClick={() => { this.props.facilityActions.createExcel(this.props.resolvedMflFacilities) }} >
+                                        onClick={() => { this.props.facilityActions.createExcel(this.props.resolvedMflFacilities, (this.props.orgUnitSelected.name + ' resolution') ) }} >
                                         Download as excel
                                             </Button>
                                 </Paper>
