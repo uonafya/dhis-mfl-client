@@ -2,7 +2,7 @@ import * as types from "./actionTypes"
 import Dhis2Service from "../../Services/Dhis2Service"
 import MFLService from "../../Services/MFLService"
 import store from "../configureStore"
-
+import fileDownload from "js-file-download"
 
 
 export const orgLevels = {
@@ -164,7 +164,7 @@ export function resetOrgUnitTypeFetched() {
 }
 
 export function getMflFacilities(mflCodes) {
-    return (dispatch, getState) => {
+    return function (dispatch, getState) {
 
         dispatch({
             type: types.MFL_FACILITIES_REQUESTED
@@ -184,7 +184,42 @@ export function getMflFacilities(mflCodes) {
             })
     }
 }
+5
+export function createExcel(resolutionData) {
+    return function (dispatch, getState){
+        let data = []
+        resolutionData.map((instance, i) => {
+            data.push({
+                orgunit: 'name',
+                DHIS2: instance.name.meta.dhis2Name,
+                KMHFL: instance.name.meta.mflName
+            })
+            data.push({
+                orgunit: 'code',
+                DHIS2: instance.code.meta.dhis2Code,
+                KMHFL: instance.code.meta.mflCode
+            })
+            data.push({
+                orgunit: 'coordinates',
+                DHIS2: instance.code.meta.dhis2Coordinates,
+                KMHFL: instance.code.meta.mflCoordinates
+            })
+            data.push({
+                orgunit: '',
+                DHIS2:'',
+                KMHFL: ''
+            })
+        })
 
+        console.log(data)
+        var opts = [{ sheetid: 'Resolution', header: true }];
+        var res = alasql('SELECT * INTO XLSX("resolution.xlsx",?) FROM ?',
+            [opts, [data]]);
+
+
+        // fileDownload(res, 'facility.xlsx')
+    }
+}
 
 export function resolveMflFacility(orgUnitsMeta) {
 

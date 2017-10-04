@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
+import fileDownload from 'js-file-download'
 
 import { withStyles } from 'material-ui/styles'
 import List, { ListItem, ListItemText } from 'material-ui/List'
@@ -10,6 +11,7 @@ import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Button from "material-ui/Button"
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
@@ -42,6 +44,9 @@ const styles = theme => ({
         margin: '0 2px',
         transform: 'scale(0.8)',
     },
+    button: {
+        margin: theme.spacing.unit,
+    },
 })
 
 class FacilityResolutionPage extends Component {
@@ -53,6 +58,8 @@ class FacilityResolutionPage extends Component {
             // console.log(this.props.facilities)
         }
     }
+
+   
 
     render() {
         const classes = this.props.classes
@@ -112,9 +119,13 @@ class FacilityResolutionPage extends Component {
                                 <Typography type="headline" gutterBottom>
                                     TOTAL:&nbsp;&nbsp;{this.props.mflFacilityResolutionSummary.total}
                                 </Typography>
-                                <Typography type="body1" style={{ marginTop: -20 }} className={classes.pos}>                                                                        
+                                <Typography type="body1" style={{ marginTop: -20 }} className={classes.pos}>
                                     <span style={{ fontStyle: "italic", fontSize: "90%", color: "#000000" }}>Disclaimer! This information is based on DHIS2 & KMHFL data</span>
                                 </Typography>
+                                <Button raised color="primary" className={classes.button}
+                                    onClick={() =>{this.props.facilityActions.createExcel(this.props.resolvedMflFacilities)}} >
+                                    Download as excel
+                                </Button>
                             </Paper>
                         ) : (
                                 <Paper className={classes.root} elevation={4}>
