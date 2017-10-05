@@ -347,6 +347,13 @@ export function localStorageCls() {
 
 var updateResolutionResults = (n, c, r) => {
     var oldObj = getObject("resolutionResults")
+    let mflCoordinates = "Not Resolved"
+    try {
+        mflCoordinates = (c > 0 || n > 0 ? (r.results[0].lat_long[1] + ',' + r.results[0].lat_long[0]) : "Not Resolved")
+        
+    } catch (error) {
+        mflCoordinates = 'Not Resolved'
+    }
     var update = {
         "id": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].id || 0),
         "name": {
@@ -355,7 +362,7 @@ var updateResolutionResults = (n, c, r) => {
                 "dhis2Name": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].name || '0'),
                 "dhis2Coordinates": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].coordinates || '0'),
                 "mflName": (n > 0 || c > 0 ? r.results[0].name : "Not Resolved"),
-                "mflCoordinates": (c > 0 || n > 0 ? (r.results[0].lat_long[1] + ',' + r.results[0].lat_long[0]) : "Not Resolved"),
+                "mflCoordinates": mflCoordinates,
             }
         },
         "code": {
@@ -364,7 +371,7 @@ var updateResolutionResults = (n, c, r) => {
                 "dhis2Code": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].code || 0),
                 "dhis2Coordinates": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].coordinates || '0'),
                 "mflCode": (c > 0 || n > 0 ? r.results[0].code : "Not Resolved"),
-                "mflCoordinates": (c > 0 || n > 0 ? (r.results[0].lat_long[1] + ',' + r.results[0].lat_long[0]) : "Not Resolved"),
+                "mflCoordinates": mflCoordinates,
             }
         }
     }
