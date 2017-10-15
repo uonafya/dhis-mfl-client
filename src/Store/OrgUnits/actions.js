@@ -49,7 +49,7 @@ export function getOrgUnit(id) {
     return function (dispatch, getState) {
         Dhis2Service.getOrgUnit(id)
             .then(orgUnit => {
-                //console.log("@GET ORG UNIT", orgUnit)
+
                 dispatch({
                     type: types.ORGUNIT_REQUESTED,
                     orgUnit: orgUnit
@@ -72,7 +72,6 @@ export function getFacilities(wardId, pageNumber = 1) {
                     type: types.FACILITIES_RECEIVED,
                     facilities: wardFacilities.children
                 })
-                //console.log("@Get Facilities", wardFacilities)
                 //resolveMflFacility(wardFacilities.children)
 
             })
@@ -96,7 +95,7 @@ export function getCounties(pageNumber = 1) {
         dispatch({ type: types.COUNTIES_REQUESTED })
         Dhis2Service.getOrgUnits(2, pageNumber)
             .then(orgUnits => {
-                //console.log(orgUnits)
+
                 //check if page end of page                
                 if (orgUnits.pager.page < orgUnits.pager.pageCount) {
                     dispatch(addCounties(orgUnits.organisationUnits))
@@ -145,7 +144,6 @@ export function getWards(constituencyId) {
     return function (dispatch, getState) {
         Dhis2Service.getOrgUnitChildren(constituencyId)
             .then(constituencyWards => {
-                //console.log("@Get Wards", constituencyWards)
                 dispatch({
                     type: types.WARDS_RECEIVED,
                     wards: constituencyWards.children
@@ -170,7 +168,6 @@ export function getMflFacilities(mflCodes) {
             type: types.MFL_FACILITIES_REQUESTED
         })
 
-        //console.log("@Get MFL Facilities:", mflCodes)
 
         MFLService.getOrgUnits(mflCodes.join())
             .then(response => {
@@ -185,8 +182,8 @@ export function getMflFacilities(mflCodes) {
     }
 }
 5
-export function createExcel(resolutionData, fileName="resolution") {
-    return function (dispatch, getState){
+export function createExcel(resolutionData, fileName = "resolution") {
+    return function (dispatch, getState) {
         let data = []
         resolutionData.map((instance, i) => {
             data.push({
@@ -206,18 +203,17 @@ export function createExcel(resolutionData, fileName="resolution") {
             })
             data.push({
                 orgunit: '',
-                DHIS2:'',
+                DHIS2: '',
                 KMHFL: ''
             })
         })
 
-        console.log(data)
         var opts = [{ sheetid: 'Resolution', header: true }];
         var res = alasql('SELECT * INTO XLSX("' + fileName + '.xlsx",?) FROM ?',
             [opts, [data]]);
 
 
-        
+
     }
 }
 
@@ -280,9 +276,36 @@ export function resolveMflFacility(orgUnitsMeta) {
                             MFLService.getOrgUnit(orgUnitMeta)
                                 .then(response => {
                                     if (response.count === 1) {
+                                        /* TODO
+                                            Implementation Here
+                                        */
 
                                         incrementResolvedItem("resolvedCodes")
-                                        updateResolutionResults(0, 1, response)
+                                        try {
+                                            let coos = obj.coordinates
+                                            coos = coos.replace('[', '');
+                                            coos = coos.replace(']', '');
+
+                                            let latLongString = coos.split(',')
+                                            let latLong = []
+                                            latLongString.map((c, i) => {
+                                                latLong.push(parseFloat(c))
+                                            })
+
+                                            
+                                            if ((latLong[0] == response.results[0].lat_long[1])
+                                                && (latLong[1] == response.results[0].lat_long[0])) {
+                                                updateResolutionResults(0, 1, response, true)
+                                            }
+                                            else {
+                                                updateResolutionResults(0, 1, response, false)
+                                            }
+
+                                        } catch (error) {
+                                            updateResolutionResults(0, 1, response, false)
+                                        }
+
+                                        // updateResolutionResults(0, 1, response)
                                         prepareForDispatch()
 
                                     } else {
@@ -296,8 +319,33 @@ export function resolveMflFacility(orgUnitsMeta) {
 
                         } else if (response.count === 1) {
 
+                            /* TODO
+                                Implementation Here
+                            */
                             incrementResolvedItem("resolvedNames")
-                            updateResolutionResults(1, 0, response)
+                            try {
+                                let coos = obj.coordinates
+                                coos = coos.replace('[', '');
+                                coos = coos.replace(']', '');
+
+                                let latLongString = coos.split(',')
+                                let latLong = []
+                                latLongString.map((c, i) => {
+                                    latLong.push(parseFloat(c))
+                                })
+                                
+                                if ((latLong[0] == response.results[0].lat_long[1])
+                                    && (latLong[1] == response.results[0].lat_long[0])) {
+                                    updateResolutionResults(1, 0, response, true)
+                                }
+                                else {
+                                    updateResolutionResults(1, 0, response, false)
+                                }
+                            } catch (error) {
+                                updateResolutionResults(1, 0, response, false)
+                            }
+
+
                             prepareForDispatch()
 
                         } else {
@@ -313,7 +361,38 @@ export function resolveMflFacility(orgUnitsMeta) {
             } else if (response.count === 1) {
 
                 incrementResolvedItem("resolvedNamesAndCodes")
-                updateResolutionResults(1, 1, response)
+                /* TODO
+                    Implementation Here
+                */
+
+                //Get current orgUnit being processed like so;
+                var obj = getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))]
+                try {
+                    let coos = obj.coordinates
+                    coos = coos.replace('[', '');
+                    coos = coos.replace(']', '');
+
+                    let latLongString = coos.split(',')
+                    let latLong = []
+                    latLongString.map((c, i) => {
+                        latLong.push(parseFloat(c))
+                    })
+                    
+                    if ((latLong[0] == response.results[0].lat_long[1])
+                        && (latLong[1] == response.results[0].lat_long[0])) {
+                        updateResolutionResults(1, 1, response, true)
+                    }
+                    else {
+                        updateResolutionResults(1, 1, response, false)
+                    }
+                } catch (error) {
+                    updateResolutionResults(1, 1, response, false)
+                }
+
+
+
+                //Then pass your args in the updateResolutionResults() function
+
                 prepareForDispatch()
 
             } else {
@@ -340,17 +419,16 @@ var clearLocalStorage = () => {
 
 export function localStorageCls() {
     return (dispatch, getState) => {
-        console.log("Hey")
         clearLocalStorage()
     }
 }
 
-var updateResolutionResults = (n, c, r) => {
+var updateResolutionResults = (n, c, r, coordinateResolveStatus = false) => {
     var oldObj = getObject("resolutionResults")
     let mflCoordinates = "Not Resolved"
     try {
         mflCoordinates = (c > 0 || n > 0 ? (r.results[0].lat_long[1] + ',' + r.results[0].lat_long[0]) : "Not Resolved")
-        
+
     } catch (error) {
         mflCoordinates = 'Not Resolved'
     }
@@ -360,17 +438,20 @@ var updateResolutionResults = (n, c, r) => {
             "didResolve": n,
             "meta": {
                 "dhis2Name": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].name || '0'),
-                "dhis2Coordinates": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].coordinates || '0'),
                 "mflName": (n > 0 || c > 0 ? r.results[0].name : "Not Resolved"),
-                "mflCoordinates": mflCoordinates,
             }
         },
         "code": {
             "didResolve": c,
             "meta": {
                 "dhis2Code": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].code || 0),
-                "dhis2Coordinates": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].coordinates || '0'),
                 "mflCode": (c > 0 || n > 0 ? r.results[0].code : "Not Resolved"),
+            }
+        },
+        "coordinates": {
+            "didResolve": coordinateResolveStatus,
+            "meta": {
+                "dhis2Coordinates": (getObject("orgUnitsMetaObjectArray")[parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos"))].coordinates || '0'),
                 "mflCoordinates": mflCoordinates,
             }
         }
@@ -378,7 +459,7 @@ var updateResolutionResults = (n, c, r) => {
 
     oldObj.push(update)
     setObject("resolutionResults", oldObj)
-    //console.log(getObject("resolutionResults"), "responseObj", response)
+
 }
 
 var prepareForDispatch = () => {
@@ -386,7 +467,7 @@ var prepareForDispatch = () => {
         < parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))) {
         localStorage.setItem("orgUnitsMetaIterratorCursorPos",
             parseInt(localStorage.getItem("orgUnitsMetaIterratorCursorPos")) + 1)
-        //console.log("@ Resolve Facility Action - Count === 1 > ",localStorage.getItem("orgUnitsMetaIterratorCursorPos"))                            
+
         resolveMflFacility(getObject("orgUnitsMetaObjectArray"))
     } else {
         var toEvans = getObject("resolutionResults")
@@ -396,7 +477,7 @@ var prepareForDispatch = () => {
             "resolvedCodes": parseInt(localStorage.getItem("resolvedCodes")),
             "total": parseInt(localStorage.getItem("orgUnitsMetaObjectArrayCount"))
         }
-        //console.log("To EVans Obj",toEvans)
+
         //clearLocalStorage()
         store.dispatch({
             type: types.MFL_FACILITY_RESOLUTION_COMPLETED,
