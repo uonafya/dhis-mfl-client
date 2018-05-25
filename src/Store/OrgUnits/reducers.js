@@ -115,8 +115,7 @@ export default function facilityReducer(state = initialState, action = {}) {
                 mflFacilityResolutionStatus: action.mflFacilityResolutionStatus
             })
 
-        case types.MFL_FACILITY_RESOLUTION_COMPLETED:
-            //console.log("@ Reducer Bruh!")
+        case types.MFL_FACILITY_RESOLUTION_COMPLETED:            
             return state.merge({
                 mflFacilityResolutionIsCompleted: true,
                 mflFacilityResolutionIsStarted: false,

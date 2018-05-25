@@ -9,7 +9,7 @@ export default class MFLService {
         delete MFLService.credentials
         const credentials = {
             "username": "dennisbanga@gmail.com",
-            "password": "healthit123",
+            "password": "banga123",
             "grantType": "password",
             "clientId": "5O1KlpwBb96ANWe27ZQOpbWSF4DZDm4sOytwdzGv",
             "clientSecret": "PqV0dHbkjXAtJYhY9UOCgRVi5BzLhiDxGU91kbt5EoayQ5SYOoJBYRYAYlJl2RetUeDMpSvhe9DaQr0HKHan0B9ptVyoLvOqpekiOmEqUJ6HZKuIoma0pvqkkKDU9GPv"
@@ -27,7 +27,6 @@ export default class MFLService {
             method: "POST",
             headers: new Headers({
                 "Content-Type": "application/json",
-                "Vary": "Accept",
                 "Accept": "application/json",
                 "Authorization": "Basic "+btoa(this.credentials.clientId+":"+this.credentials.clientSecret)
             }),
@@ -35,8 +34,7 @@ export default class MFLService {
         }
 
         return fetch(url, request)
-        .then(response => {
-            //console.log("@Get Token - MFL Service ", response)
+        .then(response => {            
             if (response.status != 200) {
 
             }
@@ -59,15 +57,13 @@ export default class MFLService {
             method: "POST",
             headers: new Headers({
                 "Content-Type": "application/json",
-                "Vary": "Accept",
                 "Accept": "application/json"
             }),
             json: true
         }
 
         return fetch(url, request)
-        .then(response => {
-            //console.log("@Refresh Token - MFL Service ", response)
+        .then(response => {            
             if (response.status != 200) {
 
             }
@@ -86,7 +82,6 @@ export default class MFLService {
             method: "GET",
             headers: new Headers({
                 "Content-Type": "application/json",
-                "Vary": "Accept",
                 "Accept": "application/json",
                 "Authorization": "Bearer "+accesToken.access_token
             }),
@@ -94,8 +89,7 @@ export default class MFLService {
         }
 
         return fetch(url, request)
-        .then(response => {
-            //console.log("@Get Org Units - MFL Service ", response)
+        .then(response => {            
             if (response.status != 200) {
 
             }
@@ -121,7 +115,6 @@ export default class MFLService {
             method: "GET",
             headers: new Headers({
                 "Content-Type": "application/json",
-                "Vary": "Accept",
                 "Accept": "application/json",
                 "Authorization": "Bearer "+accesToken.access_token
             }),
@@ -129,8 +122,7 @@ export default class MFLService {
         }
 
         return fetch(url, request)
-        .then(response => {
-            console.log("@Get Org Units - MFL Service ", response)
+        .then(response => {            
             if (response.status != 200) {
 
             }

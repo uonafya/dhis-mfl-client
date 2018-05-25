@@ -28,8 +28,7 @@ export function mflApiAuth(){
                         dispatch({
                             type: types.MFL_LOGIN_SUCCESS,
                             isMflUserAuthenticated: true,
-                        })
-                        console.log("Auth Success")
+                        })                        
                         sessionStorage.setItem("mflAccessToken", JSON.stringify(response))
                     }else{
                         dispatch({
@@ -63,8 +62,7 @@ export function mflUserDetails(){
             dispatch({
                 type: types.MFL_USER_INFORMATION_UPDATED,
                 mflUserInformation: response
-            })
-            //console.log(response)
+            })            
         })
         .catch(error => { 
             throw(error)

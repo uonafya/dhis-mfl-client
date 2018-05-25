@@ -52,7 +52,7 @@ function FacilityResolutionDetailsCard(props) {
         resolutionStatusColor = <WarningIcon style={{color: colorRed}} />
       }
 
-  //console.log(props.facilityMeta.name.didResolve)
+
 
   return (
     <div>

@@ -25,8 +25,7 @@ export default class Dhis2Service {
 
 
         return fetch(url, request)
-            .then(response => {
-                //console.log(response)
+            .then(response => {                
                 if (response.status != 200) {
 
                 }
@@ -44,7 +43,7 @@ export default class Dhis2Service {
 
     static getOrgUnits(levels = [], pageNumber) {
         let levelsText = '[' + levels + ']'
-        const url = this.host.concat('organisationUnits.json?fields=id,name,level,code&filter=level:in:' + levelsText + '&paging=true&page=' + pageNumber)
+        const url = this.host.concat('organisationUnits.json?fields=id,name,level,code,coordinates&filter=level:in:' + levelsText + '&paging=true&page=' + pageNumber)
         const request = {
             method: "GET",
             headers: {
@@ -81,7 +80,7 @@ export default class Dhis2Service {
 
 
     static getOrgUnitChildren(orgUnitId) {
-        const url = this.host.concat('organisationUnits/' + orgUnitId + '?fields=children[id,name,code]&paging=true&page=1')
+        const url = this.host.concat('organisationUnits/' + orgUnitId + '?fields=children[id,name,code,coordinates]&paging=true&page=1')
         const request = {
             method: "GET",
             headers: {
