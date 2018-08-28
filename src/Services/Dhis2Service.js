@@ -1,7 +1,7 @@
 export default class Dhis2Service {
     static get host() {
         delete Dhis2Service.host
-        return Dhis2Service.host = 'http://test.hiskenya.org/api/26/'
+        return Dhis2Service.host = 'https://test.hiskenya.org/dev/api/26/'
     }
 
     static get basicAuth() {
