@@ -1,18 +1,18 @@
 export default class Dhis2Service {
     static get host() {
         delete Dhis2Service.host
-        return Dhis2Service.host = 'https://test.hiskenya.org/dev/api/26/'
+        return Dhis2Service.host = 'https://test.hiskenya.org/kenya/api/'
     }
 
     static get basicAuth() {
         delete Dhis2Service.basicAuth
-        const parsedCredentials = 'healthit:hEALTHIT2017'
+        const parsedCredentials = 'healthit:@Protocol1'
         const encodedCredentials = btoa(parsedCredentials)
         return Dhis2Service.basicAuth = encodedCredentials
     }
 
     static getUserInformation(credentials) {
-        const url = 'http://test.hiskenya.org/api/26/me'
+        const url = this.host.concat('me')
         const parsedCredentials = credentials.username + ':' + credentials.password
         const encodedCredentials = btoa(parsedCredentials)
 

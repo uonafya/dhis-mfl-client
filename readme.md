@@ -77,7 +77,7 @@ functions in Orgunit actions:
 ```
 
 ## User Interface
-### Pagees
+### Pages
 The Application is made of two primary pages:
 ```
 Home: holds the form that allows selection of ward to perform resolution

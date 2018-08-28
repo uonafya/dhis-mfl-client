@@ -2,17 +2,17 @@ export default class MFLService {
 
     static get host() {
         delete MFLService.host
-        return MFLService.host = 'http://api.kmhfltest.health.go.ke'
+        return MFLService.host = 'https://api.kmhfltest.health.go.ke'
     }
 
     static get credentials(){
         delete MFLService.credentials
         const credentials = {
-            "username": "dennisbanga@gmail.com",
-            "password": "banga123",
+            "username": "test@gmail.com",
+            "password": "test@1234",
             "grantType": "password",
-            "clientId": "5O1KlpwBb96ANWe27ZQOpbWSF4DZDm4sOytwdzGv",
-            "clientSecret": "PqV0dHbkjXAtJYhY9UOCgRVi5BzLhiDxGU91kbt5EoayQ5SYOoJBYRYAYlJl2RetUeDMpSvhe9DaQr0HKHan0B9ptVyoLvOqpekiOmEqUJ6HZKuIoma0pvqkkKDU9GPv"
+            "clientId": "aL1Z6K2OiXs3XnSTdxYPu2WnwoqtnZFj1pxiV9fZ",
+            "clientSecret": "qikoDzqHqzyC2b00AkR0l48jcolx4sbJNj4ZwbECzIAxaJXYz6OygMR7NNMgeVx0Dr6vDEaxUxHav3thipDH5YKHudFH87xMkkm4HD98krivDYRPllHeSuLgtMwFygX3"
         }
         return MFLService.credentials = credentials
     }

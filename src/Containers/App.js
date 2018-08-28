@@ -35,7 +35,7 @@ class App extends Component {
 
     handleChange = (event, value) => {
         event.preventDefault()
-        window.location = "http://test.hiskenya.org/"
+        window.location = "https://test.hiskenya.org/"
     }
 
     handleClick = (event) => {
@@ -60,7 +60,9 @@ class App extends Component {
                             value={value} onChange={this.handleChange}
                             style={{ color: "#fff", backgroundColor: "transparent", marginRight: -30 }}
                         >
-                            <BottomNavigationButton style={{ color: "#fff" }} icon={<CloseIcon />} />
+                            <div style={{padding: "10px"}}>
+                                <CloseIcon />
+                            </div>
                         </BottomNavigation>
                     </Toolbar>
                 </AppBar>
